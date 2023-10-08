@@ -22,12 +22,12 @@ public class CaixaDeBonus implements Serializable{
         return dataHoraAtualizacao;
     }
     
-    void creditar(double valor) {
+    public void creditar(double valor) {
         saldo += valor;
         dataHoraAtualizacao = java.time.LocalDateTime.now();
     }
 
-    void debitar(double valor) {
+    public void debitar(double valor) {
         saldo -= valor;
         dataHoraAtualizacao = java.time.LocalDateTime.now();
     }

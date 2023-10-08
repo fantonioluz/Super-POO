@@ -18,7 +18,7 @@ public class Vendedor implements Serializable{
     private double renda;
     private Endereco endereco;
 
-    //construtor inicializando todos os atributos
+   
     public Vendedor(String cpf, String nomeCompleto, Sexo sexo, LocalDate dataNascimento, double renda, Endereco endereco){
         this.cpf = cpf;
         this.nomeCompleto = nomeCompleto;
@@ -28,7 +28,7 @@ public class Vendedor implements Serializable{
         this.endereco = endereco;
     }
 
-    //propriedades get public para todos atributos
+   
     public String getcpf() {
         return cpf;
     }
@@ -74,7 +74,7 @@ public class Vendedor implements Serializable{
         this.endereco = endereco;
     }
     
-    // método para calcular idade do vendedor em função da data atual e a de nascimento 
+    
     public int calcularIdade(){
         LocalDate dataAtual = LocalDate.now();
         return Period.between(dataNascimento,dataAtual).getYears();
