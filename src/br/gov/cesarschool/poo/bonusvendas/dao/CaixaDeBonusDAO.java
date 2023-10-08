@@ -20,7 +20,8 @@ public class CaixaDeBonusDAO {
     }
 
     public boolean alterar(CaixaDeBonus caixaDeBonus) {
-        if (caixaDeBonus == null) {
+        CaixaDeBonus caixaDeBonusExistente = buscar(caixaDeBonus.getNumero());
+        if (caixaDeBonusExistente == null) {
             return false;
         }
         else{
@@ -30,7 +31,8 @@ public class CaixaDeBonusDAO {
     }
 
     public boolean excluir(CaixaDeBonus caixaDeBonus) {
-        if (caixaDeBonus == null) {
+        CaixaDeBonus caixaDeBonusExistente = buscar(caixaDeBonus.getNumero());
+        if (caixaDeBonusExistente == null) {
             return false;
         }
         else{
@@ -41,5 +43,14 @@ public class CaixaDeBonusDAO {
 
     public CaixaDeBonus buscar(long numero) {
         return (CaixaDeBonus) cadastro.buscar(ARQUIVO + numero);
+    }
+
+    public CaixaDeBonus[] buscarTodos() {
+        Serializable[] rets = cadastro.buscarTodos(CaixaDeBonus.class);
+        CaixaDeBonus[] caixaDeBonus = new CaixaDeBonus[rets.length];
+        for (int i = 0; i < rets.length; i++) {
+            caixaDeBonus[i] = (CaixaDeBonus) rets[i];
+        }
+        return caixaDeBonus;
     }
 }
