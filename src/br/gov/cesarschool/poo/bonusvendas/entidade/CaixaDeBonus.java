@@ -4,7 +4,7 @@ package br.gov.cesarschool.poo.bonusvendas.entidade;
 public class CaixaDeBonus {
     private long numero;
     private double saldo;
-    private java.time.LocalDate dataHoraAtualizacao;
+    private java.time.LocalDateTime dataHoraAtualizacao;
 
     public CaixaDeBonus(long numero) {
         this.numero = numero;
