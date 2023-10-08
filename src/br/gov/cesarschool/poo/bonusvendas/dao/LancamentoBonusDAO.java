@@ -22,7 +22,7 @@ public class LancamentoBonusDAO {
         if (buscaLancamentoObj != null) {
             return false;
         } else {
-            cadastro.incluir(lancamentoBonus, buscaLancamento);
+            cadastro.incluir(lancamentoBonus, ARQUIVO + buscaLancamento);
             return true;
         }
     }
@@ -34,7 +34,7 @@ public class LancamentoBonusDAO {
         if (buscaLancamentoObj == null) {
             return false;
         } else {
-            cadastro.alterar(lancamentoBonus, buscaLancamento);
+            cadastro.alterar(lancamentoBonus, ARQUIVO + buscaLancamento);
             return true;
         }
     }
@@ -46,13 +46,13 @@ public class LancamentoBonusDAO {
         if (buscaLancamentoObj == null) {
             return false;
         } else {
-            cadastro.excluir(buscaLancamento);
+            cadastro.excluir(ARQUIVO + buscaLancamento);
             return true;
         }
     }
 
     public LancamentoBonus buscar(String idLancamento) {
-        return (LancamentoBonus) cadastro.buscar(idLancamento);
+        return (LancamentoBonus) cadastro.buscar(ARQUIVO + idLancamento);
     }
 
     public LancamentoBonus[] buscarTodos() {
