@@ -18,18 +18,18 @@ public class CaixaDeBonus {
         return saldo;
     }
 
-    public java.time.LocalDate getDataHoraAtualizacao() {
+    public java.time.LocalDateTime getDataHoraAtualizacao() {
         return dataHoraAtualizacao;
     }
     
     void creditar(double valor) {
         saldo += valor;
-        dataHoraAtualizacao = java.time.LocalDate.now();
+        dataHoraAtualizacao = java.time.LocalDateTime.now();
     }
 
     void debitar(double valor) {
         saldo -= valor;
-        dataHoraAtualizacao = java.time.LocalDate.now();
+        dataHoraAtualizacao = java.time.LocalDateTime.now();
     }
 
 }
