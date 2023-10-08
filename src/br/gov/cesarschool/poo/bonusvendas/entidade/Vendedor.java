@@ -14,8 +14,6 @@ public class Vendedor implements Serializable{
     private String cpf;
     private String nomeCompleto;
     private Sexo sexo;
-    
-
     private LocalDate dataNascimento;
     private double renda;
     private Endereco endereco;
