@@ -10,6 +10,7 @@ public class StringUtil {
         if(str == null || strSemEspaco.isEmpty()){
             return true;
         }
+        return false;
 
     }
 }
