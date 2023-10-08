@@ -1,6 +1,11 @@
 {
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "/Users/milaa/Downloads/PersistenciaObjetos.jar"
-    ]
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar",
+            "/Users/milaa/Downloads/PersistenciaObjetos.jar"
+        ],
+        "exclude": [
+            "Libs/PersistenciaObjetos.jar"
+        ]
+    }
 }
