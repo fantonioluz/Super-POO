@@ -1,7 +1,7 @@
 package br.gov.cesarschool.poo.bonusvendas.entidade;
+import java.io.Serializable;
 
-
-public class CaixaDeBonus {
+public class CaixaDeBonus implements Serializable{
     private long numero;
     private double saldo;
     private java.time.LocalDateTime dataHoraAtualizacao;

@@ -1,6 +1,7 @@
 package br.gov.cesarschool.poo.bonusvendas.entidade.geral;
+import java.io.Serializable;
 
-public class Endereco {
+public class Endereco implements Serializable {
 	private String logradouro; 
     private int numero;
     private String complemento;
