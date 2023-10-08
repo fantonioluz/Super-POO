@@ -6,9 +6,9 @@ public class LancamentoBonusDebito extends LancamentoBonus {
 
     TipoResgate tipoResgate;
 
-    public LancamentoBonusDebito(long numeroCaixaDeBunus, double valor, LocalDateTime dataHoraLancamento,
+    public LancamentoBonusDebito(long numeroCaixaDeBonus, double valor, LocalDateTime dataHoraLancamento,
             TipoResgate tipoResgate) {
-        super(numeroCaixaDeBunus, valor, dataHoraLancamento);
+        super(numeroCaixaDeBonus, valor, dataHoraLancamento);
         this.tipoResgate = tipoResgate;
     }
 

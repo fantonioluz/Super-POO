@@ -3,22 +3,23 @@ import java.io.Serializable;
 
 
 public class LancamentoBonus implements Serializable{
-    private long numeroCaixaDeBunus;
+    private long numeroCaixaDeBonus;
     private double valor;
     private java.time.LocalDateTime dataHoraLancamento;
+    
 
 
-    LancamentoBonus(long numeroCaixaDeBunus, double valor, java.time.LocalDateTime dataHoraLancamento) {
-        this.numeroCaixaDeBunus = numeroCaixaDeBunus;
+    LancamentoBonus(long numeroCaixaDeBonus, double valor, java.time.LocalDateTime dataHoraLancamento) {
+        this.numeroCaixaDeBonus = numeroCaixaDeBonus;
         this.valor = valor;
         this.dataHoraLancamento = dataHoraLancamento;
     }
 
-    public long getNumeroCaixaDeBunus() {
-        return numeroCaixaDeBunus;
+    public long getNumeroCaixaDeBonus() {
+        return numeroCaixaDeBonus;
     }
-    public void setNumeroCaixaDeBunus(long numeroCaixaDeBunus) {
-        this.numeroCaixaDeBunus = numeroCaixaDeBunus;
+    public void setNumeroCaixaDeBonus(long numeroCaixaDeBonus) {
+        this.numeroCaixaDeBonus = numeroCaixaDeBonus;
     }
     public double getValor() {
         return valor;
