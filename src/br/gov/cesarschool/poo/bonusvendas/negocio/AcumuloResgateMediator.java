@@ -17,7 +17,7 @@ public class AcumuloResgateMediator {
     private CaixaDeBonusDAO repositorioCaixaDeBonus;
     private LancamentoBonusDAO repositorioLancamento;
 
-    private AcumuloResgateMediator() {
+    AcumuloResgateMediator() {
         repositorioCaixaDeBonus = new CaixaDeBonusDAO();
         repositorioLancamento = new LancamentoBonusDAO();
     }
