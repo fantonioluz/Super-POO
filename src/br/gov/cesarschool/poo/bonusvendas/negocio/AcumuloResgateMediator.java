@@ -7,6 +7,7 @@ import br.gov.cesarschool.poo.bonusvendas.dao.CaixaDeBonusDAO;
 import br.gov.cesarschool.poo.bonusvendas.dao.LancamentoBonusDAO;
 import br.gov.cesarschool.poo.bonusvendas.entidade.CaixaDeBonus;
 import br.gov.cesarschool.poo.bonusvendas.entidade.LancamentoBonusCredito;
+import br.gov.cesarschool.poo.bonusvendas.entidade.LancamentoBonusDebito;
 import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
 
 
@@ -74,6 +75,43 @@ public class AcumuloResgateMediator {
 
             return null;
         
+    }
+
+    public String resgatar(long numeroCaixaDeBonus, double valor, TipoResgate tipo){
+
+        if(valor <= 0){
+            return "Valor menor ou igual a zero";
+        }
+
+        CaixaDeBonus caixaDeBonus = repositorioCaixaDeBonus.buscar(numeroCaixaDeBonus);
+
+        if (caixaDeBonus == null){
+            return "Caixa de bônus inexistente";
+        }
+
+        if(caixaDeBonus.getSaldo() < valor){
+            return "Saldo insuficiente";
+        }
+        
+        caixaDeBonus.debitar(valor);
+        boolean flag = repositorioCaixaDeBonus.alterar(caixaDeBonus);
+        
+        if(!flag){
+            return "ERRO: na alteração da caixa bônus";
+        }
+
+        LancamentoBonusDebito lancamentoBonusResgate = new LancamentoBonusDebito(numeroCaixaDeBonus, valor, java.time.LocalDateTime.now(), tipo);
+        lancamentoBonusResgate.setNumeroCaixaDeBonus(numeroCaixaDeBonus);
+        lancamentoBonusResgate.getTipoResgate(tipo);
+
+        boolean flag2 = repositorioLancamento.incluir(lancamentoBonusResgate);
+
+        if(!flag2){
+            return "ERRO: falha ao incluir lançamento de bônus.";
+        }
+
+            return null;
+
     }
 
 
