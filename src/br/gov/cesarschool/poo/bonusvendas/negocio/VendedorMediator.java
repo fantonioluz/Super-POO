@@ -2,11 +2,9 @@ package br.gov.cesarschool.poo.bonusvendas.negocio;
 import java.time.Period;
 
 import br.gov.cesarschool.poo.bonusvendas.dao.VendedorDAO;
-import br.gov.cesarschool.poo.bonusvendas.entidade.CaixaDeBonus;
-import br.gov.cesarschool.poo.bonusvendas.negocio.AcumuloResgateMediator;
+import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
 import br.gov.cesarschool.poo.bonusvendas.negocio.geral.StringUtil;
 import br.gov.cesarschool.poo.bonusvendas.negocio.geral.ValidadorCPF;
-import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
 
 public class VendedorMediator {
     private static VendedorMediator instance;
@@ -111,6 +109,20 @@ public class VendedorMediator {
         } else {
             ResultadoInclusaoVendedor resultado = new ResultadoInclusaoVendedor(0, retorno);
             return resultado;
+        }
+    }
+
+    public String alterar(Vendedor vendedor){
+        String retorno = validar(vendedor);
+        if(retorno == null) { //null é retorno se os dados estão validos
+            repositoriovendedor.alterar(vendedor);
+
+            String resultado = null;
+
+            return resultado;
+        } else {
+            
+            return retorno;
         }
     }
 
