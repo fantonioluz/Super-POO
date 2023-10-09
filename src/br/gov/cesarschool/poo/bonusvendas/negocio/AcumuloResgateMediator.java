@@ -53,21 +53,27 @@ public class AcumuloResgateMediator {
         CaixaDeBonus caixaDeBonus = repositorioCaixaDeBonus.buscar(numeroCaixaDeBonus);
             
         if (caixaDeBonus == null){
-            return "Caixa de bonus inexistente";
+            return "Caixa de bônus inexistente";
         }
         
         caixaDeBonus.creditar(valor);
         boolean flag = repositorioCaixaDeBonus.alterar(caixaDeBonus);
-        if(flag == false){
+        
+        if(!flag){
             return "ERRO: na alteração da caixa bônus";
         }
         LancamentoBonusCredito lancamentoBonusCredito = new LancamentoBonusCredito(numeroCaixaDeBonus, valor, java.time.LocalDateTime.now());
+        lancamentoBonusCredito.setNumeroCaixaDeBonus(numeroCaixaDeBonus);
+        lancamentoBonusCredito.setValor(valor);
 
+        boolean flag2 = repositorioLancamento.incluir(lancamentoBonusCredito);
 
+        if(!flag2){
+            return "ERRO: falha ao incluir lançamento de bônus.";
+        }
 
-
-
-
+            return null;
+        
     }
 
 
