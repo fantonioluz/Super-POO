@@ -9,6 +9,7 @@ import br.gov.cesarschool.poo.bonusvendas.entidade.CaixaDeBonus;
 import br.gov.cesarschool.poo.bonusvendas.entidade.LancamentoBonusCredito;
 import br.gov.cesarschool.poo.bonusvendas.entidade.LancamentoBonusDebito;
 import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
+import br.gov.cesarschool.poo.bonusvendas.entidade.TipoResgate;
 
 
 public class AcumuloResgateMediator {
@@ -102,7 +103,7 @@ public class AcumuloResgateMediator {
 
         LancamentoBonusDebito lancamentoBonusResgate = new LancamentoBonusDebito(numeroCaixaDeBonus, valor, java.time.LocalDateTime.now(), tipo);
         lancamentoBonusResgate.setNumeroCaixaDeBonus(numeroCaixaDeBonus);
-        lancamentoBonusResgate.getTipoResgate(tipo);
+        lancamentoBonusResgate.getTipoResgate();
 
         boolean flag2 = repositorioLancamento.incluir(lancamentoBonusResgate);
 
