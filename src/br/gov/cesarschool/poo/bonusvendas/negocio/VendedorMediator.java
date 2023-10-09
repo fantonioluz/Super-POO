@@ -93,6 +93,25 @@ public class VendedorMediator {
 
     }
 
+    public Vendedor buscar(String cpf){
+        return repositoriovendedor.buscar(cpf);
 
+    }
+
+    public ResultadoInclusaoVendedor incluir(Vendedor vendedor) {
+        String retorno = validar(vendedor);
+        if(retorno == null) { //null é retorno se os dados estão validos
+            repositoriovendedor.incluir(vendedor);
+            
+            long numeroCaixaDeBonus = caixaDeBonusMediator.gerarCaixaDeBonus(vendedor);
+
+            ResultadoInclusaoVendedor resultado = new ResultadoInclusaoVendedor(numeroCaixaDeBonus, null);
+
+            return resultado;
+        } else {
+            ResultadoInclusaoVendedor resultado = new ResultadoInclusaoVendedor(0, retorno);
+            return resultado;
+        }
+    }
 
 }
