@@ -55,6 +55,9 @@ public class AcumuloResgateMediator {
             if (caixaDeBonus == null){
                 return "Caixa de bonus inexistente";
             }
+            if(valor <= 0){
+                return "Valor menor ou igual a zero";
+            }
             
             caixaDeBonus.creditar(valor);
 
@@ -64,8 +67,11 @@ public class AcumuloResgateMediator {
                 return "ERRO: na alteração da caixa bônus";
             }
 
+            LancamentoBonusCredito lancamentoBonusCredito = new LancamentoBonusCredito(numeroCaixaDeBonus, valor, java.time.LocalDateTime.now());
 
-            LancamentoBonusCredito lancamentoCredito = new LancamentoBonusCredito();
+            
+
+
 
 
     }
