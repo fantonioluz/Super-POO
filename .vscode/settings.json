@@ -3,7 +3,8 @@
         "include": [
             "lib/**/*.jar",
             "/Users/milaa/Downloads/PersistenciaObjetos.jar",
-            "/Users/milaa/Downloads/lombok.jar"
+            "/Users/milaa/Downloads/lombok.jar",
+            "c:\\Users\\fcoan\\Downloads\\PersistenciaObjetos.jar"
         ],
         "exclude": [
             "Libs/PersistenciaObjetos.jar"
