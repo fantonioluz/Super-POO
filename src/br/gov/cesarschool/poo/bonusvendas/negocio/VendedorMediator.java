@@ -4,6 +4,7 @@ import java.time.Period;
 import br.gov.cesarschool.poo.bonusvendas.dao.VendedorDAO;
 import br.gov.cesarschool.poo.bonusvendas.entidade.CaixaDeBonus;
 import br.gov.cesarschool.poo.bonusvendas.negocio.AcumuloResgateMediator;
+import br.gov.cesarschool.poo.bonusvendas.negocio.geral.StringUtil;
 import br.gov.cesarschool.poo.bonusvendas.negocio.geral.ValidadorCPF;
 import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
 
@@ -49,7 +50,9 @@ public class VendedorMediator {
             return "Data de nascimento não informada";
         }
 
-        if(Period.between(vendedor.getdataNascimento(), java.time.LocalDate.now()).getYears() < 18){
+        int idade = Period.between(vendedor.getdataNascimento(), java.time.LocalDate.now()).getYears();
+
+        if( idade < 18){
             return "Data de nascimento invalida";
         }
 
@@ -57,13 +60,36 @@ public class VendedorMediator {
             return "Renda menor que zero";
         }
 
-        if(vendedor.getendereco() == null ){
+        if(vendedor.getendereco() == null){
             return "Endereço não informado";
         }
 
         
+        if(StringUtil.ehNuloOuBranco(vendedor.getendereco().getLogradouro())){
+            return "Logradouro nao informado";
+        }
 
+        if(vendedor.getendereco().getLogradouro().length() < 4) {
+            return "Logradouro tem menos de 04 caracteres";
+        }
 
+        if(vendedor.getendereco().getNumero() < 0){
+            return "Numero menor que zero";
+        }
+        
+        if(vendedor.getendereco().getCidade() == null  || vendedor.getendereco().getCidade().isEmpty()){
+            return "Cidade nao informada";
+        }
+
+        if(vendedor.getendereco().getEstado() == null  || vendedor.getendereco().getEstado().isEmpty()){
+            return "Estado nao informado";
+        }
+
+        if(vendedor.getendereco().getPais() == null  || vendedor.getendereco().getPais().isEmpty()){
+            return "Pais nao informado";
+        }
+
+        return null;
 
     }
 
