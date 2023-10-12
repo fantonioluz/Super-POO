@@ -32,7 +32,6 @@ public class AcumuloResgateMediator {
 
     public long gerarCaixaDeBonus(Vendedor vendedor) {
         String cpf = vendedor.getCpf();
-        // apagar os dois ultimos caracteres do cpf
         cpf = cpf.substring(0, cpf.length() - 2);
         LocalDate dataAtual =LocalDate.now();
         String dataFormatada =  dataAtual.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
