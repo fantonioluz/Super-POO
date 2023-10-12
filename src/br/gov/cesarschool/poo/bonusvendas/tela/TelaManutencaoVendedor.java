@@ -201,30 +201,19 @@ public class TelaManutencaoVendedor {
         });
     }
 
-/*
-	private void addCPFFormatter(final Text text) {
-        text.addVerifyListener(new VerifyListener() {
-            @Override
-            public void verifyText(VerifyEvent e) {
-            	String currentText = ((Text) e.widget).getText();
-                String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
-                if (!newText.matches("\\d{0,11}?")) {
-                	  JOptionPane.showMessageDialog(null, 
-                              "Formato do campo CPF inválido!");
-                    e.doit = false;
-                    
-                }
-            }
-        });
-	}
-	
-	
+	private boolean ignoreModifyEvent = false;
 
 	private void addCPFFormatter(final Text text) {
 	    text.addModifyListener(new ModifyListener() {
 	        @Override
 	        public void modifyText(ModifyEvent e) {
-	            String currentText = text.getText().replaceAll("[^0-9]", ""); 
+	            if (ignoreModifyEvent) {
+	                return;
+	            }
+
+	            ignoreModifyEvent = true;
+
+	            String currentText = text.getText().replaceAll("[^0-9]", "");
 	            StringBuilder formattedText = new StringBuilder();
 	            int length = currentText.length();
 
@@ -237,56 +226,31 @@ public class TelaManutencaoVendedor {
 	                }
 	            }
 
-	            if (formattedText.length() > 14) {
-	                formattedText.setLength(14);
+	            if (length > 11) {
+	                
+	                currentText = currentText.substring(0, 11);
+	                length = 11;
 	            }
 
-	            if (!text.getText().equals(formattedText.toString())) {
-	                text.setText(formattedText.toString());
-	            }
-	        }
-	    });
-	}
-
-	*/
-	
-	private void addCPFFormatter(final Text text) {
-	    // Variável para rastrear o valor do CPF original
-	    final StringBuilder originalCPF = new StringBuilder();
-
-	    text.addFocusListener(new FocusAdapter() {
-	        public void focusLost(FocusEvent e) {
-	            String currentText = text.getText().replaceAll("[^0-9]", "");
-
-	            // Se o CPF tiver menos de 11 dígitos, exibir um erro
-	            if (currentText.length() < 11) {
-	                JOptionPane.showMessageDialog(null, "Formato do campo CPF inválido!");
-	                text.setText(originalCPF.toString());
-	            } else {
-	                // Aplicar a máscara de CPF (xxx.xxx.xxx-00)
-	                StringBuilder formattedText = new StringBuilder();
+	            if (length == 11) {
+	                
+	                formattedText.setLength(0); 
 	                formattedText.append(currentText.substring(0, 3));
-	                formattedText.append('.');
+	                formattedText.append(".");
 	                formattedText.append(currentText.substring(3, 6));
-	                formattedText.append('.');
+	                formattedText.append(".");
 	                formattedText.append(currentText.substring(6, 9));
-	                formattedText.append('-');
+	                formattedText.append("-");
 	                formattedText.append(currentText.substring(9, 11));
-
-	                text.setText(formattedText.toString());
 	            }
-	        }
 
-	        public void focusGained(FocusEvent e) {
-	            // Quando o campo ganha foco, remover a máscara
-	            originalCPF.setLength(0);
-	            originalCPF.append(text.getText().replaceAll("[^0-9]", ""));
-	            text.setText(originalCPF.toString());
+	            text.setText(formattedText.toString());
+	            text.setSelection(formattedText.length());
+
+	            ignoreModifyEvent = false;
 	        }
 	    });
 	}
-
-
 
 
 	
