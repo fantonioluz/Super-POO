@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import br.gov.cesarschool.poo.bonusvendas.negocio.VendedorMediator;
+import javax.swing.JOptionPane;
 
 public class TelaManutencaoVendedor {
 
@@ -204,7 +205,10 @@ public class TelaManutencaoVendedor {
             	String currentText = ((Text) e.widget).getText();
                 String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
                 if (!newText.matches("\\d{0,11}?")) {
+                	  JOptionPane.showMessageDialog(null, 
+                              "Formato do campo <nome do campo> inválido!");
                     e.doit = false;
+                    
                 }
             }
         });
