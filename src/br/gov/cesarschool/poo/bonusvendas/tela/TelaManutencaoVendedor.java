@@ -219,26 +219,33 @@ public class TelaManutencaoVendedor {
 	*/
 
 	private void addCPFFormatter(final Text text) {
-		text.addModifyListener(new ModifyListener() {
-		    @Override
-		    public void modifyText(ModifyEvent e) {
-		        String currentText = textCPF.getText().replaceAll("[^0-9]", ""); 
-		        StringBuilder formattedText = new StringBuilder();
-		        int length = currentText.length();
+	    text.addModifyListener(new ModifyListener() {
+	        @Override
+	        public void modifyText(ModifyEvent e) {
+	            String currentText = text.getText().replaceAll("[^0-9]", ""); 
+	            StringBuilder formattedText = new StringBuilder();
+	            int length = currentText.length();
 
-		        for (int i = 0; i < length; i++) {
-		            formattedText.append(currentText.charAt(i));
-		            if (i == 2 || i == 5) {
-		                formattedText.append(".");
-		            } else if (i == 8) {
-		                formattedText.append("-");
-		            }
-		        }
+	            for (int i = 0; i < length; i++) {
+	                formattedText.append(currentText.charAt(i));
+	                if (i == 2 || i == 5) {
+	                    formattedText.append(".");
+	                } else if (i == 8) {
+	                    formattedText.append("-");
+	                }
+	            }
 
-		        textCPF.setText(formattedText.toString());
-		    }
-		});
-   }
+	            if (formattedText.length() > 14) {
+	                formattedText.setLength(14);
+	            }
+
+	            if (!text.getText().equals(formattedText.toString())) {
+	                text.setText(formattedText.toString());
+	            }
+	        }
+	    });
+	}
+
 	
 
 	
