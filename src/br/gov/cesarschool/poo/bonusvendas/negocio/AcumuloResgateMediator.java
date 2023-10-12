@@ -22,7 +22,7 @@ public class AcumuloResgateMediator {
         repositorioLancamento = new LancamentoBonusDAO();
     }
 
-    public static AcumuloResgateMediator getInstance() {
+    public static AcumuloResgateMediator getInstancia() {
         if (instance == null){
             instance = new AcumuloResgateMediator();
         }
