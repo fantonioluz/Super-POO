@@ -199,7 +199,7 @@ public class TelaManutencaoVendedor {
         });
     }
 
-
+/*
 	private void addCPFFormatter(final Text text) {
         text.addVerifyListener(new VerifyListener() {
             @Override
@@ -216,7 +216,7 @@ public class TelaManutencaoVendedor {
         });
 	}
 	
-	
+	*/
 
 	private void addCPFFormatter(final Text text) {
 		text.addModifyListener(new ModifyListener() {
