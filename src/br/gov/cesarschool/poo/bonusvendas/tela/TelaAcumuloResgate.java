@@ -14,6 +14,8 @@ import org.eclipse.swt.widgets.Text;
 
 import br.gov.cesarschool.poo.bonusvendas.dao.CaixaDeBonusDAO;
 import br.gov.cesarschool.poo.bonusvendas.entidade.CaixaDeBonus;
+import br.gov.cesarschool.poo.bonusvendas.entidade.TipoResgate;
+import br.gov.cesarschool.poo.bonusvendas.negocio.AcumuloResgateMediator;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
@@ -26,7 +28,8 @@ public class TelaAcumuloResgate {
 	
 	protected Shell shell;
 	
-	private CaixaDeBonusDAO mediator = new CaixaDeBonusDAO();
+	private CaixaDeBonusDAO caixaDeBonusDAO = new CaixaDeBonusDAO();
+	private AcumuloResgateMediator mediator = AcumuloResgateMediator.getInstancia();
 
 
 	private Text NumeroCaixa;
@@ -117,12 +120,43 @@ public class TelaAcumuloResgate {
 		valor.setBounds(322, 152, 41, 18);
 		
 		Button acumularOuResgatar = new Button(shell, SWT.BORDER);
+		acumularOuResgatar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				if(Acumular.getSelection()) {
+					acumularOuResgatar.setText("Acumular");
+					mediator.acumularBonus(Long.parseLong(NumeroCaixa.getText()), Double.parseDouble(valor.getText()));
+					JOptionPane.showMessageDialog(null, 
+					"Valor creditado com sucesso!");
+				} else if(Resgatar.getSelection()) {
+					acumularOuResgatar.setText("Resgatar");
+					mediator.resgatar(Long.parseLong(NumeroCaixa.getText()), Double.parseDouble(valor.getText()), TipoResgate.values()[tipoResgate.getSelectionIndex()]);
+					JOptionPane.showMessageDialog(null, 
+					"Valor resgatado com sucesso!");
+				}
+			}
+		});
 		acumularOuResgatar.setEnabled(false);
 		this.acumularOuResgatar = acumularOuResgatar;
 		acumularOuResgatar.setBounds(285, 194, 96, 20);
 		acumularOuResgatar.setText("Acumular/Resgatar");
 		
 		Button voltar = new Button(shell, SWT.BORDER);
+		voltar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				valor.setText(null);
+				valor.setEnabled(false);
+				tipoResgate.setEnabled(false);
+				acumularOuResgatar.setEnabled(false);
+				voltar.setEnabled(false);
+				NumeroCaixa.setText(null);
+				Saldo.setText(null);
+				Saldo.setEnabled(false);
+				Acumular.setSelection(false);
+				Resgatar.setSelection(false);
+			}
+		});
 		voltar.setEnabled(false);
 		this.voltar = voltar;
 		voltar.setBounds(285, 220, 61, 20);
@@ -150,7 +184,7 @@ public class TelaAcumuloResgate {
 		Buscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
-				CaixaDeBonus caixaDeBonus = mediator.buscar(Long.parseLong(NumeroCaixa.getText()));
+				CaixaDeBonus caixaDeBonus = caixaDeBonusDAO.buscar(Long.parseLong(NumeroCaixa.getText()));
 				if(caixaDeBonus == null) {
 					JOptionPane.showMessageDialog(null, 
 					"Caixa de bonus inexistente!");
