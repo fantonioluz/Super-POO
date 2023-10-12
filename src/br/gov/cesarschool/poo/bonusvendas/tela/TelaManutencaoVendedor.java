@@ -213,14 +213,10 @@ public class TelaManutencaoVendedor {
 	                String formattedCPF = String.format("%s.%s.%s-%s", digitsOnly.substring(0, 3), digitsOnly.substring(3, 6), digitsOnly.substring(6, 9), digitsOnly.substring(9, 11));
 	                text.setText(formattedCPF);
 	                e.doit = false;  
-	            } else {
-	                text.setText(digitsOnly);  
 	            }
 	        }
 	    });
 	}
-
-	
 	
 	
 	
