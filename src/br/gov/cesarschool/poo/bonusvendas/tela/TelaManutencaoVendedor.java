@@ -13,10 +13,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import br.gov.cesarschool.poo.bonusvendas.negocio.VendedorMediator;
 
 public class TelaManutencaoVendedor {
 
 	protected Shell shell;
+	
+	private VendedorMediator vendedorMediator = VendedorMediator.getInstancia();
+	
 	private Text textCPF;
 	private Text textNomeCompleto;
 	private Text textRenda;
