@@ -29,7 +29,7 @@ public class Vendedor implements Serializable{
     }
 
    
-    public String getcpf() {
+    public String getCpf() {
         return cpf;
     }
 

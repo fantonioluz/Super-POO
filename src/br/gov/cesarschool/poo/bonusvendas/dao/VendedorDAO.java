@@ -10,31 +10,31 @@ public class VendedorDAO {
     private CadastroObjetos cadastro = new CadastroObjetos(Vendedor.class);
 
     public boolean incluir(Vendedor vendedor) {
-        Vendedor buscaVendedor = buscar(vendedor.getcpf());
+        Vendedor buscaVendedor = buscar(vendedor.getCpf());
         if(buscaVendedor != null){
             return false;
         } else {
-            cadastro.incluir(vendedor, ARQUIVO + vendedor.getcpf());
+            cadastro.incluir(vendedor, ARQUIVO + vendedor.getCpf());
             return true;
         }
     }
 
     public boolean alterar(Vendedor vendedor) {
-        Vendedor buscaVendedor = buscar(vendedor.getcpf());
+        Vendedor buscaVendedor = buscar(vendedor.getCpf());
         if(buscaVendedor == null){
             return false;
         } else {
-            cadastro.alterar(vendedor, ARQUIVO + vendedor.getcpf());
+            cadastro.alterar(vendedor, ARQUIVO + vendedor.getCpf());
             return true;
         }
     }
 
     public boolean excluir(Vendedor vendedor) {
-        Vendedor buscaVendedor = buscar(vendedor.getcpf());
+        Vendedor buscaVendedor = buscar(vendedor.getCpf());
         if(buscaVendedor == null){
             return false;
         } else {
-            cadastro.excluir(ARQUIVO + vendedor.getcpf());
+            cadastro.excluir(ARQUIVO + vendedor.getCpf());
             return true;
         }
     }

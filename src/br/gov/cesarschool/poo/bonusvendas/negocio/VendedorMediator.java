@@ -27,11 +27,11 @@ public class VendedorMediator {
         
         //deve validar os dados do vendedor recebidos no objeto. Se os dados estiverem válidos, deve incluir o vendedor no repositorioVendedor, gerar número da caixa de bônus através do caixaDeBonusMediator, e retornar um objeto do tipo ResultadoInclusaoVendedor com número da caixa de bônus gerado e mensagem de erro nula. Se algum dado estiver inválido, deve retornar um objeto do tipo ResultadoInclusaoVendedor com número da caixa de bônus zero e mensagem informando o que não foi validado.
 
-        if(vendedor.getcpf() == null || vendedor.getcpf().isEmpty()){
+        if(vendedor.getCpf() == null || vendedor.getCpf().isEmpty()){
             return "CPF não informado";
         }
 
-        if(ValidadorCPF.ehCpfValido(vendedor.getcpf()) == false){
+        if(ValidadorCPF.ehCpfValido(vendedor.getCpf()) == false){
             return "CPF inválido";
         }
 
