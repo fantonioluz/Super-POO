@@ -252,28 +252,35 @@ public class TelaManutencaoVendedor {
 	    text.addModifyListener(new ModifyListener() {
 	        @Override
 	        public void modifyText(ModifyEvent e) {
-	            String currentText = text.getText().replaceAll("[^0-9]", ""); 
+	            String currentText = text.getText().replaceAll("[^0-9]", "");
 	            StringBuilder formattedText = new StringBuilder();
 	            int length = currentText.length();
 
-	
-	            if (length == 3 || length == 6) {
-	                formattedText.append(".");
+	            if (length > 0) {
+	                formattedText.append(currentText.substring(0, Math.min(3, length)));
 	            }
 
-	            if (length == 9) {
-	                formattedText.append("-");
+	            if (length >= 4) {
+	                formattedText.append(".").append(currentText.substring(3, Math.min(6, length)));
+	            }
+
+	            if (length >= 7) {
+	                formattedText.append(".").append(currentText.substring(6, Math.min(9, length)));
+	            }
+
+	            if (length >= 10) {
+	                formattedText.append("-").append(currentText.substring(9, Math.min(11, length)));
 	            }
 
 	            text.setText(formattedText.toString());
 
-	
 	            if (length < 11) {
 	                JOptionPane.showMessageDialog(null, "Formato do campo CPF inválido!");
 	            }
 	        }
 	    });
 	}
+
 
 
 	
