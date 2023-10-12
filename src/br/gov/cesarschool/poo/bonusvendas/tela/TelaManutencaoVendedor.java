@@ -10,7 +10,9 @@ import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import br.gov.cesarschool.poo.bonusvendas.negocio.VendedorMediator;
@@ -76,7 +78,7 @@ public class TelaManutencaoVendedor {
 		
 		textCPF = new Text(shell, SWT.BORDER);
 		textCPF.setBounds(10, 55, 134, 19);
-		addCPFFormatter(textCPF);
+		//addCPFFormatter(textCPF);
 		
 		textNomeCompleto = new Text(shell, SWT.BORDER);
 		textNomeCompleto.setBounds(10, 104, 151, 19);
@@ -197,7 +199,7 @@ public class TelaManutencaoVendedor {
         });
     }
 
-	
+/*	
 	private void addCPFFormatter(final Text text) {
         text.addVerifyListener(new VerifyListener() {
             @Override
@@ -206,7 +208,7 @@ public class TelaManutencaoVendedor {
                 String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
                 if (!newText.matches("\\d{0,11}?")) {
                 	  JOptionPane.showMessageDialog(null, 
-                              "Formato do campo <nome do campo> inválido!");
+                              "Formato do campo CPF inválido!");
                     e.doit = false;
                     
                 }
@@ -214,7 +216,38 @@ public class TelaManutencaoVendedor {
         });
 	}
 	
+	*/
+
+	private void addCPFFormatter(final Text text) {
+        // Adicione um Listener para formatar o CPF enquanto o usuário digita
+      textCPF.addListener(SWT.Verify, new Listener() {
+        	public void handleEvent1(Event e) {
+                String text = e.text;
+                StringBuilder result = new StringBuilder(textCPF.getText());
+
+                if (text.matches("[0-9]") && result.length() < 14) {
+                    if (result.length() == 3 || result.length() == 7 || result.length() == 11) {
+                        result.append('.');
+                    } else if (result.length() == 14) {
+                        result.append('-');
+                    }
+                }
+
+                e.text = result.toString();
+            }
+
+			@Override
+			public void handleEvent(Event arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+     });
+   }
 	
+
+	
+
+  
 	
 	
 	 private void addCEPFormatter(final Text text) {
@@ -222,7 +255,9 @@ public class TelaManutencaoVendedor {
 	            @Override
 	            public void verifyText(VerifyEvent e) {
 	                String newText = text.getText().substring(0, e.start) + e.text + text.getText(e.end, text.getText().length() - 1);
-	                if (!newText.matches("\\d{0,5}-\\d{0,3}")) {
+	                if (!newText.matches("\\d{0,8}?")) {
+	                		JOptionPane.showMessageDialog(null, 
+	                           "Formato do campo CEP inválido!");
 	                    e.doit = false;
 	                }
 	            }
@@ -263,7 +298,9 @@ public class TelaManutencaoVendedor {
 	            public void verifyText(VerifyEvent e) {
 	                String currentText = ((Text) e.widget).getText();
 	                String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
-	                if (!newText.matches("\\d{0,2}(\\/\\d{0,2}(\\/\\d{0,4})?)?")) {
+	                if (!newText.matches("\\d{0,7}?")) {
+	                	JOptionPane.showMessageDialog(null, 
+	                              "Formato do campo número inválido!");
 	                    e.doit = false;
 	                }
 	            }
