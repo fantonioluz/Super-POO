@@ -198,39 +198,17 @@ public class TelaManutencaoVendedor {
 
 	
 	private void addCPFFormatter(final Text text) {
-	    text.addVerifyListener(new VerifyListener() {
-	        @Override
-	        public void verifyText(VerifyEvent e) {
-	            String currentText = text.getText();
-	            String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
-	            
-	            // Verifique se o novo texto contém apenas dígitos
-	            if (!newText.matches("\\d*")) {
-	                e.doit = false;
-	                return;
-	            }
-	            
-	            // Formate o CPF conforme o padrão 999.999.999-99
-	            StringBuilder formattedCPF = new StringBuilder();
-	            int index = 0;
-	            for (char c : newText.toCharArray()) {
-	                formattedCPF.append(c);
-	                index++;
-	                if (index == 3 || index == 6) {
-	                    formattedCPF.append('.');
-	                } else if (index == 9) {
-	                    formattedCPF.append('-');
-	                }
-	            }
-	            
-	            text.setText(formattedCPF.toString());
-	            
-	            // Defina a seleção do cursor para o final do texto
-	            text.setSelection(text.getText().length());
-	        }
-	    });
+        text.addVerifyListener(new VerifyListener() {
+            @Override
+            public void verifyText(VerifyEvent e) {
+            	String currentText = ((Text) e.widget).getText();
+                String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
+                if (!newText.matches("\\d{0,11}?")) {
+                    e.doit = false;
+                }
+            }
+        });
 	}
-
 	
 	
 	
