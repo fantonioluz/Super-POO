@@ -24,5 +24,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="lib/oblesqbom.jar"/>
 	<classpathentry kind="lib" path="lib/PersistenciaObjetos.jar"/>
+	<classpathentry kind="lib" path="/Users/milaa/Downloads/swt-4.29-cocoa-macosx-x86_64/swt.jar"/>
+	<classpathentry kind="lib" path="/Users/milaa/Downloads/oblesqbom.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
