@@ -124,6 +124,8 @@ public class TelaManutencaoVendedor {
 		
 		textNumero = new Text(shell, SWT.BORDER);
 		textNumero.setBounds(177, 149, 97, 19);
+		addNumeroFormatter(textNumero);
+		
 		
 		Label lblComplemento = new Label(shell, SWT.NONE);
 		lblComplemento.setBounds(177, 175, 90, 14);
@@ -196,17 +198,28 @@ public class TelaManutencaoVendedor {
 
 	
 	private void addCPFFormatter(final Text text) {
-        text.addVerifyListener(new VerifyListener() {
-            @Override
-            public void verifyText(VerifyEvent e) {
-            	String currentText = ((Text) e.widget).getText();
-                String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
-                if (!newText.matches("\\d{0,3}(\\.\\d{0,3}(\\.\\d{0,3}(-\\d{0,2})?)?)?")) {
-                    e.doit = false;
-                }
-            }
-        });
+	    text.addVerifyListener(new VerifyListener() {
+	        @Override
+	        public void verifyText(VerifyEvent e) {
+	            String currentText = ((Text) e.widget).getText();
+	            String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
+	            
+	            
+	            String digitsOnly = newText.replaceAll("[^0-9]", "");
+	            
+	            
+	            if (digitsOnly.length() >= 11) {
+	                digitsOnly = digitsOnly.substring(0, 11);
+	                String formattedCPF = String.format("%s.%s.%s-%s", digitsOnly.substring(0, 3), digitsOnly.substring(3, 6), digitsOnly.substring(6, 9), digitsOnly.substring(9, 11));
+	                text.setText(formattedCPF);
+	                e.doit = false;  
+	            } else {
+	                text.setText(digitsOnly);  
+	            }
+	        }
+	    });
 	}
+
 	
 	
 	
@@ -238,6 +251,20 @@ public class TelaManutencaoVendedor {
 
 	    
 	    private void addDataNascimentoFormatter(final Text text) {
+	        text.addVerifyListener(new VerifyListener() {
+	            @Override
+	            public void verifyText(VerifyEvent e) {
+	                String currentText = ((Text) e.widget).getText();
+	                String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
+	                if (!newText.matches("\\d{0,2}(\\/\\d{0,2}(\\/\\d{0,4})?)?")) {
+	                    e.doit = false;
+	                }
+	            }
+	        });
+    }
+	    
+	    
+	    private void addNumeroFormatter(final Text text) {
 	        text.addVerifyListener(new VerifyListener() {
 	            @Override
 	            public void verifyText(VerifyEvent e) {
