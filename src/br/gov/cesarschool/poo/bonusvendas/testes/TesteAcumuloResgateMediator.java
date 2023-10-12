@@ -23,7 +23,7 @@ public class TesteAcumuloResgateMediator extends TesteGeral {
 	private static final String CAIXA_DE_BONUS_INEXISTENTE = "Caixa de bonus inexistente";
 	private static final String VALOR_MENOR_OU_IGUAL_A_ZERO = "Valor menor ou igual a zero";
 	protected CadastroObjetos cadastroLanc = new CadastroObjetos(LancamentoBonus.class);
-	private AcumuloResgateMediator mediator = AcumuloResgateMediator.getInstance();
+	private AcumuloResgateMediator mediator = AcumuloResgateMediator.getInstancia();
 	@Test
 	public void testNaoGerarNumeroCaixaBonus() {
 		excluirVendedoresCaixasBonusLancamentos();
