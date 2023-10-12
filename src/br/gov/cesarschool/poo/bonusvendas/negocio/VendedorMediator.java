@@ -16,7 +16,7 @@ public class VendedorMediator {
         caixaDeBonusMediator = new AcumuloResgateMediator();
     }
 
-    public static VendedorMediator getInstance() {
+    public static VendedorMediator getInstancia() {
         if (instance == null) {
             instance = new VendedorMediator();
         }

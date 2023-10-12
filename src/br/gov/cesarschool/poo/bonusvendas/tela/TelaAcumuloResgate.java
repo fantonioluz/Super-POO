@@ -4,7 +4,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import br.gov.cesarschool.poo.bonusvendas.negocio.VendedorMediator;
+
 public class TelaAcumuloResgate {
+	
+	private VendedorMediator mediator = VendedorMediator.getInstancia();
 
 	protected Shell shell;
 
