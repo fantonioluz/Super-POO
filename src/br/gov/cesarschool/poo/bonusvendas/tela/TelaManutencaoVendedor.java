@@ -216,7 +216,7 @@ public class TelaManutencaoVendedor {
         });
 	}
 	
-	*/
+	
 
 	private void addCPFFormatter(final Text text) {
 	    text.addModifyListener(new ModifyListener() {
@@ -246,7 +246,35 @@ public class TelaManutencaoVendedor {
 	    });
 	}
 
+	*/
 	
+	private void addCPFFormatter(final Text text) {
+	    text.addModifyListener(new ModifyListener() {
+	        @Override
+	        public void modifyText(ModifyEvent e) {
+	            String currentText = text.getText().replaceAll("[^0-9]", ""); 
+	            StringBuilder formattedText = new StringBuilder();
+	            int length = currentText.length();
+
+	
+	            if (length == 3 || length == 6) {
+	                formattedText.append(".");
+	            }
+
+	            if (length == 9) {
+	                formattedText.append("-");
+	            }
+
+	            text.setText(formattedText.toString());
+
+	
+	            if (length < 11) {
+	                JOptionPane.showMessageDialog(null, "Formato do campo CPF inválido!");
+	            }
+	        }
+	    });
+	}
+
 
 	
 
