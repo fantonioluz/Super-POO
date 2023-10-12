@@ -4,9 +4,10 @@ import java.io.Serializable;
 public class CaixaDeBonus implements Serializable{
     private long numero;
     private double saldo;
-    private java.time.LocalDateTime dataHoraAtualizacao;
+    private java.time.LocalDateTime dataHoraAtualizacao = java.time.LocalDateTime.now();
 
     public CaixaDeBonus(long numero) {
+        super();
         this.numero = numero;
     }
 

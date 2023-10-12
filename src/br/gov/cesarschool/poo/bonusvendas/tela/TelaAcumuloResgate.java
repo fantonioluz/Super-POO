@@ -11,7 +11,11 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
 
+import br.gov.cesarschool.poo.bonusvendas.negocio.VendedorMediator;
+
 public class TelaAcumuloResgate {
+	
+	private VendedorMediator mediator = VendedorMediator.getInstancia();
 
 	protected Shell shell;
 	

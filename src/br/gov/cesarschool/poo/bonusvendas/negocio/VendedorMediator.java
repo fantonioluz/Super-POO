@@ -16,36 +16,38 @@ public class VendedorMediator {
         caixaDeBonusMediator = new AcumuloResgateMediator();
     }
 
-    public static VendedorMediator getInstance() {
+    public static VendedorMediator getInstancia() {
         if (instance == null) {
             instance = new VendedorMediator();
         }
         return instance;
     }
 
+
     private String validar(Vendedor vendedor){
         
-        //deve validar os dados do vendedor recebidos no objeto. Se os dados estiverem válidos, deve incluir o vendedor no repositorioVendedor, gerar número da caixa de bônus através do caixaDeBonusMediator, e retornar um objeto do tipo ResultadoInclusaoVendedor com número da caixa de bônus gerado e mensagem de erro nula. Se algum dado estiver inválido, deve retornar um objeto do tipo ResultadoInclusaoVendedor com número da caixa de bônus zero e mensagem informando o que não foi validado.
 
-        if(vendedor.getCpf() == null || vendedor.getCpf().isEmpty()){
-            return "CPF não informado";
+        if(StringUtil.ehNuloOuBranco(vendedor.getCpf())){
+            return "CPF nao informado";
         }
 
-        if(ValidadorCPF.ehCpfValido(vendedor.getCpf()) == false){
-            return "CPF inválido";
+        else if(ValidadorCPF.ehCpfValido(vendedor.getCpf()) == false){
+            	return "CPF invalido";
+         
         }
 
-        if(vendedor.getnomeCompleto() == null || vendedor.getnomeCompleto().isEmpty()){
-            return "Nome não informado";
+        if(StringUtil.ehNuloOuBranco(vendedor.getnomeCompleto())){
+            return "Nome completo nao informado";
+            
         }
 
         if(vendedor.getSexo() == null){
-            return "Sexo não informado";
+            return "Sexo nao informado";
         }
 
 
         if(vendedor.getdataNascimento() == null ){
-            return "Data de nascimento não informada";
+            return "Data de nascimento nao informada";
         }
 
         int idade = Period.between(vendedor.getdataNascimento(), java.time.LocalDate.now()).getYears();
@@ -59,7 +61,7 @@ public class VendedorMediator {
         }
 
         if(vendedor.getendereco() == null){
-            return "Endereço não informado";
+            return "Endereco nao informado";
         }
 
         
@@ -75,15 +77,15 @@ public class VendedorMediator {
             return "Numero menor que zero";
         }
         
-        if(vendedor.getendereco().getCidade() == null  || vendedor.getendereco().getCidade().isEmpty()){
+        if(StringUtil.ehNuloOuBranco(vendedor.getendereco().getCidade())){
             return "Cidade nao informada";
         }
 
-        if(vendedor.getendereco().getEstado() == null  || vendedor.getendereco().getEstado().isEmpty()){
+        if(StringUtil.ehNuloOuBranco(vendedor.getendereco().getEstado())){
             return "Estado nao informado";
         }
 
-        if(vendedor.getendereco().getPais() == null  || vendedor.getendereco().getPais().isEmpty()){
+        if(StringUtil.ehNuloOuBranco(vendedor.getendereco().getPais())){
             return "Pais nao informado";
         }
 
@@ -99,13 +101,19 @@ public class VendedorMediator {
     public ResultadoInclusaoVendedor incluir(Vendedor vendedor) {
         String retorno = validar(vendedor);
         if(retorno == null) { //null é retorno se os dados estão validos
-            repositoriovendedor.incluir(vendedor);
-            
-            long numeroCaixaDeBonus = caixaDeBonusMediator.gerarCaixaDeBonus(vendedor);
+            //verificar se vendor ja esta cadastrado
+            Vendedor vendedorExistente = repositoriovendedor.buscar(vendedor.getCpf());
+            if(vendedorExistente != null){
+                ResultadoInclusaoVendedor resultado = new ResultadoInclusaoVendedor(0, "Vendedor ja existente");
+                return resultado;
+            }
+            else{
+                repositoriovendedor.incluir(vendedor);
+                long numeroCaixaDeBonus = caixaDeBonusMediator.gerarCaixaDeBonus(vendedor);
+                ResultadoInclusaoVendedor resultado = new ResultadoInclusaoVendedor(numeroCaixaDeBonus, null);
+                return resultado;
+            }
 
-            ResultadoInclusaoVendedor resultado = new ResultadoInclusaoVendedor(numeroCaixaDeBonus, null);
-
-            return resultado;
         } else {
             ResultadoInclusaoVendedor resultado = new ResultadoInclusaoVendedor(0, retorno);
             return resultado;
@@ -114,15 +122,22 @@ public class VendedorMediator {
 
     public String alterar(Vendedor vendedor){
         String retorno = validar(vendedor);
-        if(retorno == null) { //null é retorno se os dados estão validos
-            repositoriovendedor.alterar(vendedor);
+        if(retorno == null) {
+            //verificar se vendor ja esta cadastrado
 
-            String resultado = null;
-
-            return resultado;
+            Vendedor vendedorExistente = repositoriovendedor.buscar(vendedor.getCpf());
+            if(vendedorExistente == null){
+                return "Vendedor inexistente";
+            }
+            else{
+                repositoriovendedor.alterar(vendedor);
+                String resultado = null;
+                return resultado;
+            }
+            
         } else {
             
-            return retorno;
+            return "Vendedor inexistente";
         }
     }
 

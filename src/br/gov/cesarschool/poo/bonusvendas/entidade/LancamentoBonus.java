@@ -10,6 +10,7 @@ public class LancamentoBonus implements Serializable{
 
 
     LancamentoBonus(long numeroCaixaDeBonus, double valor, java.time.LocalDateTime dataHoraLancamento) {
+        super();
         this.numeroCaixaDeBonus = numeroCaixaDeBonus;
         this.valor = valor;
         this.dataHoraLancamento = dataHoraLancamento;

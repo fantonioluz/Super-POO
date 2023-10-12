@@ -5,12 +5,10 @@ public class StringUtil {
     private StringUtil() {
         }
 
-    public static boolean ehNuloOuBranco(String str){
-         String strSemEspaco = str.trim();
-        if(str == null || strSemEspaco.isEmpty()){
+    public static boolean ehNuloOuBranco(String str) {
+        if (str == null || str.trim().isEmpty()) {
             return true;
         }
         return false;
-
     }
 }
