@@ -7,6 +7,7 @@ public class CaixaDeBonus implements Serializable{
     private java.time.LocalDateTime dataHoraAtualizacao;
 
     public CaixaDeBonus(long numero) {
+        super();
         this.numero = numero;
     }
 

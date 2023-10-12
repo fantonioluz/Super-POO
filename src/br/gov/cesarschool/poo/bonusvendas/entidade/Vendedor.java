@@ -20,6 +20,7 @@ public class Vendedor implements Serializable{
 
    
     public Vendedor(String cpf, String nomeCompleto, Sexo sexo, LocalDate dataNascimento, double renda, Endereco endereco){
+        super();
         this.cpf = cpf;
         this.nomeCompleto = nomeCompleto;
         this.sexo = sexo;

@@ -32,6 +32,8 @@ public class AcumuloResgateMediator {
 
     public long gerarCaixaDeBonus(Vendedor vendedor) {
         String cpf = vendedor.getCpf();
+        // apagar os dois ultimos caracteres do cpf
+        cpf = cpf.substring(0, cpf.length() - 2);
         LocalDate dataAtual =LocalDate.now();
         String dataFormatada =  dataAtual.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         Long numeroDaCaixaDeBonus = Long.parseLong(cpf + dataFormatada);
@@ -55,14 +57,14 @@ public class AcumuloResgateMediator {
         CaixaDeBonus caixaDeBonus = repositorioCaixaDeBonus.buscar(numeroCaixaDeBonus);
             
         if (caixaDeBonus == null){
-            return "Caixa de bônus inexistente";
+            return "Caixa de bonus inexistente";
         }
         
         caixaDeBonus.creditar(valor);
         boolean flag = repositorioCaixaDeBonus.alterar(caixaDeBonus);
         
         if(!flag){
-            return "ERRO: na alteração da caixa bônus";
+            return "ERRO: na alteração da caixa bonus";
         }
         LancamentoBonusCredito lancamentoBonusCredito = new LancamentoBonusCredito(numeroCaixaDeBonus, valor, java.time.LocalDateTime.now());
         lancamentoBonusCredito.setNumeroCaixaDeBonus(numeroCaixaDeBonus);
@@ -71,7 +73,7 @@ public class AcumuloResgateMediator {
         boolean flag2 = repositorioLancamento.incluir(lancamentoBonusCredito);
 
         if(!flag2){
-            return "ERRO: falha ao incluir lançamento de bônus.";
+            return "ERRO: falha ao incluir lançamento de bonus.";
         }
 
             return null;
@@ -87,7 +89,7 @@ public class AcumuloResgateMediator {
         CaixaDeBonus caixaDeBonus = repositorioCaixaDeBonus.buscar(numeroCaixaDeBonus);
 
         if (caixaDeBonus == null){
-            return "Caixa de bônus inexistente";
+            return "Caixa de bonus inexistente";
         }
 
         if(caixaDeBonus.getSaldo() < valor){
@@ -98,7 +100,7 @@ public class AcumuloResgateMediator {
         boolean flag = repositorioCaixaDeBonus.alterar(caixaDeBonus);
         
         if(!flag){
-            return "ERRO: na alteração da caixa bônus";
+            return "ERRO: na alteração da caixa bonus";
         }
 
         LancamentoBonusDebito lancamentoBonusResgate = new LancamentoBonusDebito(numeroCaixaDeBonus, valor, java.time.LocalDateTime.now(), tipo);
@@ -108,7 +110,7 @@ public class AcumuloResgateMediator {
         boolean flag2 = repositorioLancamento.incluir(lancamentoBonusResgate);
 
         if(!flag2){
-            return "ERRO: falha ao incluir lançamento de bônus.";
+            return "ERRO: falha ao incluir lançamento de bonus.";
         }
 
             return null;
