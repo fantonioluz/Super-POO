@@ -78,7 +78,7 @@ public class TelaManutencaoVendedor {
 		
 		textCPF = new Text(shell, SWT.BORDER);
 		textCPF.setBounds(10, 55, 134, 19);
-		//addCPFFormatter(textCPF);
+		addCPFFormatter(textCPF);
 		
 		textNomeCompleto = new Text(shell, SWT.BORDER);
 		textNomeCompleto.setBounds(10, 104, 151, 19);
@@ -199,7 +199,7 @@ public class TelaManutencaoVendedor {
         });
     }
 
-/*	
+
 	private void addCPFFormatter(final Text text) {
         text.addVerifyListener(new VerifyListener() {
             @Override
@@ -216,32 +216,28 @@ public class TelaManutencaoVendedor {
         });
 	}
 	
-	*/
+	
 
 	private void addCPFFormatter(final Text text) {
-        // Adicione um Listener para formatar o CPF enquanto o usuário digita
-      textCPF.addListener(SWT.Verify, new Listener() {
-        	public void handleEvent1(Event e) {
-                String text = e.text;
-                StringBuilder result = new StringBuilder(textCPF.getText());
+		text.addModifyListener(new ModifyListener() {
+		    @Override
+		    public void modifyText(ModifyEvent e) {
+		        String currentText = textCPF.getText().replaceAll("[^0-9]", ""); 
+		        StringBuilder formattedText = new StringBuilder();
+		        int length = currentText.length();
 
-                if (text.matches("[0-9]") && result.length() < 14) {
-                    if (result.length() == 3 || result.length() == 7 || result.length() == 11) {
-                        result.append('.');
-                    } else if (result.length() == 14) {
-                        result.append('-');
-                    }
-                }
+		        for (int i = 0; i < length; i++) {
+		            formattedText.append(currentText.charAt(i));
+		            if (i == 2 || i == 5) {
+		                formattedText.append(".");
+		            } else if (i == 8) {
+		                formattedText.append("-");
+		            }
+		        }
 
-                e.text = result.toString();
-            }
-
-			@Override
-			public void handleEvent(Event arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-     });
+		        textCPF.setText(formattedText.toString());
+		    }
+		});
    }
 	
 
