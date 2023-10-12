@@ -23,29 +23,35 @@ public class VendedorMediator {
         return instance;
     }
 
+
     private String validar(Vendedor vendedor){
         
-        //deve validar os dados do vendedor recebidos no objeto. Se os dados estiverem válidos, deve incluir o vendedor no repositorioVendedor, gerar número da caixa de bônus através do caixaDeBonusMediator, e retornar um objeto do tipo ResultadoInclusaoVendedor com número da caixa de bônus gerado e mensagem de erro nula. Se algum dado estiver inválido, deve retornar um objeto do tipo ResultadoInclusaoVendedor com número da caixa de bônus zero e mensagem informando o que não foi validado.
+        
 
         if(vendedor.getCpf() == null || vendedor.getCpf().isEmpty()){
-            return "CPF não informado";
+            return "CPF nao informado";
         }
 
-        if(ValidadorCPF.ehCpfValido(vendedor.getCpf()) == false){
-            return "CPF inválido";
+        else if(ValidadorCPF.ehCpfValido(vendedor.getCpf()) == false){
+            if(vendedor.getCpf() == null || vendedor.getCpf().isEmpty()){
+                return "CPF nao informado";
+            }else {
+            	return "CPF invalido";
+            }
+            
         }
 
         if(vendedor.getnomeCompleto() == null || vendedor.getnomeCompleto().isEmpty()){
-            return "Nome não informado";
+            return "Nome completo nao informado";
         }
 
         if(vendedor.getSexo() == null){
-            return "Sexo não informado";
+            return "Sexo nao informado";
         }
 
 
         if(vendedor.getdataNascimento() == null ){
-            return "Data de nascimento não informada";
+            return "Data de nascimento nao informada";
         }
 
         int idade = Period.between(vendedor.getdataNascimento(), java.time.LocalDate.now()).getYears();
@@ -59,7 +65,7 @@ public class VendedorMediator {
         }
 
         if(vendedor.getendereco() == null){
-            return "Endereço não informado";
+            return "Endereco nao informado";
         }
 
         
@@ -114,7 +120,7 @@ public class VendedorMediator {
 
     public String alterar(Vendedor vendedor){
         String retorno = validar(vendedor);
-        if(retorno == null) { //null é retorno se os dados estão validos
+        if(retorno == null) { 
             repositoriovendedor.alterar(vendedor);
 
             String resultado = null;
@@ -122,7 +128,7 @@ public class VendedorMediator {
             return resultado;
         } else {
             
-            return retorno;
+            return "Vendedor inexistente";
         }
     }
 

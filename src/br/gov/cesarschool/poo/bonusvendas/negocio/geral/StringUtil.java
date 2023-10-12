@@ -6,8 +6,7 @@ public class StringUtil {
         }
 
     public static boolean ehNuloOuBranco(String str){
-         String strSemEspaco = str.trim();
-        if(str == null || strSemEspaco.isEmpty()){
+        if(str == null || str.isEmpty()){
             return true;
         }
         return false;

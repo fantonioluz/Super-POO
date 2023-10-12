@@ -34,7 +34,7 @@ public class AcumuloResgateMediator {
         String cpf = vendedor.getCpf();
         LocalDate dataAtual =LocalDate.now();
         String dataFormatada =  dataAtual.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        Long numeroDaCaixaDeBonus = Long.parseLong(cpf) + Long.parseLong(dataFormatada);
+        Long numeroDaCaixaDeBonus = Long.parseLong(cpf + dataFormatada);
     
     
     CaixaDeBonus caixaDeBonus = new CaixaDeBonus(numeroDaCaixaDeBonus);
