@@ -1,6 +1,7 @@
 package br.gov.cesarschool.poo.bonusvendas.tela;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -17,6 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import br.gov.cesarschool.poo.bonusvendas.negocio.VendedorMediator;
 import javax.swing.JOptionPane;
+import java.awt.event.FocusEvent;
 
 public class TelaManutencaoVendedor {
 
@@ -249,37 +251,41 @@ public class TelaManutencaoVendedor {
 	*/
 	
 	private void addCPFFormatter(final Text text) {
-	    text.addModifyListener(new ModifyListener() {
-	        @Override
-	        public void modifyText(ModifyEvent e) {
+	    // Variável para rastrear o valor do CPF original
+	    final StringBuilder originalCPF = new StringBuilder();
+
+	    text.addFocusListener(new FocusAdapter() {
+	        public void focusLost(FocusEvent e) {
 	            String currentText = text.getText().replaceAll("[^0-9]", "");
-	            StringBuilder formattedText = new StringBuilder();
-	            int length = currentText.length();
 
-	            if (length > 0) {
-	                formattedText.append(currentText.substring(0, Math.min(3, length)));
-	            }
-
-	            if (length >= 4) {
-	                formattedText.append(".").append(currentText.substring(3, Math.min(6, length)));
-	            }
-
-	            if (length >= 7) {
-	                formattedText.append(".").append(currentText.substring(6, Math.min(9, length)));
-	            }
-
-	            if (length >= 10) {
-	                formattedText.append("-").append(currentText.substring(9, Math.min(11, length)));
-	            }
-
-	            text.setText(formattedText.toString());
-
-	            if (length < 11) {
+	            // Se o CPF tiver menos de 11 dígitos, exibir um erro
+	            if (currentText.length() < 11) {
 	                JOptionPane.showMessageDialog(null, "Formato do campo CPF inválido!");
+	                text.setText(originalCPF.toString());
+	            } else {
+	                // Aplicar a máscara de CPF (xxx.xxx.xxx-00)
+	                StringBuilder formattedText = new StringBuilder();
+	                formattedText.append(currentText.substring(0, 3));
+	                formattedText.append('.');
+	                formattedText.append(currentText.substring(3, 6));
+	                formattedText.append('.');
+	                formattedText.append(currentText.substring(6, 9));
+	                formattedText.append('-');
+	                formattedText.append(currentText.substring(9, 11));
+
+	                text.setText(formattedText.toString());
 	            }
+	        }
+
+	        public void focusGained(FocusEvent e) {
+	            // Quando o campo ganha foco, remover a máscara
+	            originalCPF.setLength(0);
+	            originalCPF.append(text.getText().replaceAll("[^0-9]", ""));
+	            text.setText(originalCPF.toString());
 	        }
 	    });
 	}
+
 
 
 
