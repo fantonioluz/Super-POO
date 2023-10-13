@@ -123,6 +123,7 @@ public class TelaManutencaoVendedor {
 		lblLogradouro.setBounds(177, 84, 122, 14);
 		lblLogradouro.setText("Logradouro");
 		
+		
 		Label lblRenda = new Label(shell, SWT.NONE);
 		lblRenda.setBounds(182, 35, 59, 14);
 		lblRenda.setText("Renda");
@@ -130,6 +131,7 @@ public class TelaManutencaoVendedor {
 		
 		textLogradouro = new Text(shell, SWT.BORDER);
 		textLogradouro.setBounds(177, 104, 193, 19);
+		addStringValidation(textLogradouro);
 		
 		Label lblNmero = new Label(shell, SWT.NONE);
 		lblNmero.setBounds(182, 129, 59, 14);
@@ -161,6 +163,7 @@ public class TelaManutencaoVendedor {
 		
 		textCidade = new Text(shell, SWT.BORDER);
 		textCidade.setBounds(324, 55, 90, 19);
+		addStringValidation(textCidade);
 		
 		Label lblEstado = new Label(shell, SWT.NONE);
 		lblEstado.setBounds(306, 129, 59, 14);
@@ -284,6 +287,10 @@ public class TelaManutencaoVendedor {
 				Vendedor vendedor = new Vendedor(cpf, nomeCompleto, sexoEnum, LocalDate.of(ano, mes, dia), Double.parseDouble(renda), endereco);
 				vendedorMediator.incluir(vendedor);
 				JOptionPane.showMessageDialog(null, "Vendedor cadastrado com sucesso!");
+				shell.close();
+				//abrir tela de acumulo e resgate
+				TelaAcumuloResgate telaAcumuloResgate = new TelaAcumuloResgate();
+				telaAcumuloResgate.open();
 			}
 		});
 		enviarButton.setBounds(306, 234, 94, 27);
@@ -297,7 +304,7 @@ public class TelaManutencaoVendedor {
         text.addVerifyListener(new VerifyListener() {
             @Override
             public void verifyText(VerifyEvent e) {
-                if (!e.text.matches("[a-zA-Z ]*")) {
+                if (!e.text.matches("[a-zA-Z .]*")) {
                     e.doit = false;
                 }
             }
