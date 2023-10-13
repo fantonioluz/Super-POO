@@ -20,6 +20,7 @@ import br.gov.cesarschool.poo.bonusvendas.negocio.VendedorMediator;
 import javax.swing.JOptionPane;
 import java.awt.event.FocusEvent;
 
+
 public class TelaManutencaoVendedor {
 
 	protected Shell shell;
@@ -82,6 +83,7 @@ public class TelaManutencaoVendedor {
 		textCPF.setBounds(10, 55, 134, 19);
 		addCPFFormatter(textCPF);
 		
+			
 		textNomeCompleto = new Text(shell, SWT.BORDER);
 		textNomeCompleto.setBounds(10, 104, 151, 19);
 		addStringValidation(textNomeCompleto);
@@ -155,26 +157,27 @@ public class TelaManutencaoVendedor {
 		textCidade.setBounds(324, 55, 90, 19);
 		
 		Label lblEstado = new Label(shell, SWT.NONE);
-		lblEstado.setBounds(324, 140, 59, 14);
+		lblEstado.setBounds(306, 129, 59, 14);
 		lblEstado.setText("Estado");
 		
 		Combo comboEstado = new Combo(shell, SWT.NONE);
 		comboEstado.setItems(new String[] {"Acre", "Amapá", "Amazonas", "Alagoas", "Aracajú", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goias", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Sul", "Rio Grande do Norte", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Tocantins"});
-		comboEstado.setBounds(324, 167, 90, 22);
+		comboEstado.setBounds(306, 149, 134, 27);
 		
 		
 		textDataDeNascimento = new Text(shell, SWT.BORDER);
 		textDataDeNascimento.setBounds(10, 222, 122, 19);
-		addDataNascimentoFormatter(textDataDeNascimento);
+		addDataFormatter(textDataDeNascimento);
+	
 		
 		Label lblPais = new Label(shell, SWT.NONE);
-		lblPais.setBounds(324, 195, 59, 14);
+		lblPais.setBounds(306, 175, 59, 14);
 		lblPais.setText("Pais");
 		
 		txtBrasil = new Text(shell, SWT.BORDER);
 		txtBrasil.setEnabled(false);
 		txtBrasil.setText("Brasil");
-		txtBrasil.setBounds(324, 217, 64, 19);
+		txtBrasil.setBounds(306, 195, 64, 19);
 
 		
 		Button enviarButton = new Button(shell, SWT.BORDER);
@@ -183,7 +186,7 @@ public class TelaManutencaoVendedor {
 			public void widgetSelected(SelectionEvent e) {
 			}
 		});
-		enviarButton.setBounds(320, 241, 94, 27);
+		enviarButton.setBounds(306, 234, 94, 27);
 		enviarButton.setText("Enviar");
 		
 		   
@@ -201,6 +204,8 @@ public class TelaManutencaoVendedor {
         });
     }
 
+
+	
 	private boolean ignoreModifyEvent = false;
 
 	private void addCPFFormatter(final Text text) {
@@ -226,14 +231,19 @@ public class TelaManutencaoVendedor {
 	                }
 	            }
 
+	         
 	            if (length > 11) {
-	                
 	                currentText = currentText.substring(0, 11);
 	                length = 11;
 	            }
+	            
+	            if (length < 11) {
+	            	// JOptionPane.showMessageDialog(null, "CPF inválido!");
+		        	System.out.println("CPF Inválido!");
+	            }
 
+	            
 	            if (length == 11) {
-	                
 	                formattedText.setLength(0); 
 	                formattedText.append(currentText.substring(0, 3));
 	                formattedText.append(".");
@@ -253,65 +263,167 @@ public class TelaManutencaoVendedor {
 	}
 
 
-	
 
-  
 	
-	
-	 private void addCEPFormatter(final Text text) {
-	        text.addVerifyListener(new VerifyListener() {
-	            @Override
-	            public void verifyText(VerifyEvent e) {
-	                String newText = text.getText().substring(0, e.start) + e.text + text.getText(e.end, text.getText().length() - 1);
-	                if (!newText.matches("\\d{0,8}?")) {
-	                		JOptionPane.showMessageDialog(null, 
-	                           "Formato do campo CEP inválido!");
-	                    e.doit = false;
-	                }
+	private boolean ignoreModifyEventCEP = false;
+
+	private void addCEPFormatter(final Text text) {
+	    text.addModifyListener(new ModifyListener() {
+	        @Override
+	        public void modifyText(ModifyEvent e) {
+	            if (ignoreModifyEventCEP) {
+	                return;
 	            }
-	        });
-	    }
+
+	            ignoreModifyEventCEP = true;
+
+	            String currentText = text.getText().replaceAll("[^0-9]", "");
+	            StringBuilder formattedText = new StringBuilder();
+	            int length = currentText.length();
+
+	            if (length > 8) {
+	                currentText = currentText.substring(0, 8);
+	                length = 8;
+	            }
+	            if (length < 8) {
+	            	// JOptionPane.showMessageDialog(null, "CEP inválido!");
+		        	System.out.println("CEP Inválido!");
+	            }
+
+	            for (int i = 0; i < length; i++) {
+	                if (i == 2) {
+	                    formattedText.append(".");
+	                } else if (i == 5) {
+	                    formattedText.append("-");
+	                }
+	                formattedText.append(currentText.charAt(i));
+	            }
+
+	            text.setText(formattedText.toString());
+	            text.setSelection(formattedText.length());
+
+	            ignoreModifyEventCEP = false;
+	        }
+	    });
+	}
+
 
 	   
-	    private void addRendaFormatter(final Text text) {
-	        text.addVerifyListener(new VerifyListener() {
-	            @Override
-	            public void verifyText(VerifyEvent e) {
-	                String newText = text.getText().substring(0, e.start) + e.text + text.getText(e.end, text.getText().length() - 1);
-	                if (!newText.matches("\\d*\\.?\\d*")) {
-	                    e.doit = false;
+	private boolean ignoreModifyEventRenda = false;
+
+	private void addRendaFormatter(final Text text) {
+	    text.addModifyListener(new ModifyListener() {
+	        @Override
+	        public void modifyText(ModifyEvent e) {
+	            if (ignoreModifyEventRenda) {
+	                return;
+	            }
+
+	            ignoreModifyEventRenda = true;
+
+	            String currentText = text.getText().replaceAll("[^0-9]", "");
+	            StringBuilder formattedText = new StringBuilder();
+	            int length = currentText.length();
+
+	            for (int i = 0; i < length; i++) {
+	                if (i == length - 2) {
+	                    formattedText.append(".");
 	                }
+	                formattedText.append(currentText.charAt(i));
+	            }
+
+	            text.setText(formattedText.toString());
+	            text.setSelection(formattedText.length());
+
+	            ignoreModifyEventRenda = false;
+	        }
+	    });
+
+	 
+	    text.addVerifyListener(new VerifyListener() {
+	        @Override
+	        public void verifyText(VerifyEvent e) {
+	            String newText = text.getText().substring(0, e.start) + e.text + text.getText(e.end, text.getText().length() - 1);
+	            if (!newText.matches("\\d*\\.?\\d*")) {
+	                e.doit = false;
+	            }
+	        }
+	    });
+	}
+
+
+	    private boolean ignoreModifyEventData = false;
+
+	    private void addDataFormatter(final Text text) {
+	        text.addModifyListener(new ModifyListener() {
+	            @Override
+	            public void modifyText(ModifyEvent e) {
+	                if (ignoreModifyEventData) {
+	                    return;
+	                }
+
+	                ignoreModifyEventData = true;
+
+	                String currentText = text.getText().replaceAll("[^0-9]", "");
+	                StringBuilder formattedText = new StringBuilder();
+	                int length = currentText.length();
+
+	                if (length > 8) {
+	                    currentText = currentText.substring(0, 8);
+	                    length = 8;
+	                }
+
+	                for (int i = 0; i < length; i++) {
+	                    if (i == 2 || i == 4) {
+	                        formattedText.append("/");
+	                    }
+	                    formattedText.append(currentText.charAt(i));
+	                }
+
+	                text.setText(formattedText.toString());
+	                text.setSelection(formattedText.length());
+	                
+	                isValidData(formattedText.toString());
+
+	                ignoreModifyEventData = false;
 	            }
 	        });
 	    }
 
 	    
-	    private void addDataNascimentoFormatter(final Text text) {
-	        text.addVerifyListener(new VerifyListener() {
-	            @Override
-	            public void verifyText(VerifyEvent e) {
-	                String currentText = ((Text) e.widget).getText();
-	                String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
-	                if (!newText.matches("\\d{0,2}(\\/\\d{0,2}(\\/\\d{0,4})?)?")) {
-	                    e.doit = false;
-	                }
-	            }
-	        });
-    }
-	    
+	    private void isValidData(String data) {
+	        String[] parts = data.split("/");
+	        if (parts.length != 3) {
+	           // JOptionPane.showMessageDialog(null, "Data de Nascimento inválida!");
+	        	System.out.println("Data de Nascimento inválida!");
+	            return;
+	        }
+
+	        int day = Integer.parseInt(parts[0]);
+	        int month = Integer.parseInt(parts[1]);
+	        int year = Integer.parseInt(parts[2]);
+
+	        if (year > 2005 || month < 1 || month > 12 || day < 1 || day > 31) {
+	          //  JOptionPane.showMessageDialog(null, "Data de Nascimento inválida!");
+	        	System.out.println("Data de Nascimento inválida!");
+	        }
+	    }
+
 	    
 	    private void addNumeroFormatter(final Text text) {
 	        text.addVerifyListener(new VerifyListener() {
 	            @Override
 	            public void verifyText(VerifyEvent e) {
-	                String currentText = ((Text) e.widget).getText();
-	                String newText = currentText.substring(0, e.start) + e.text + currentText.substring(e.end);
-	                if (!newText.matches("\\d{0,7}?")) {
-	                	JOptionPane.showMessageDialog(null, 
-	                              "Formato do campo número inválido!");
+	                String newText = e.text;
+	                String currentText = text.getText();
+	                String modifiedText = currentText.substring(0, e.start) + newText + currentText.substring(e.end);
+
+	                if (!modifiedText.matches("^\\d{0,7}$")) {
 	                    e.doit = false;
 	                }
 	            }
 	        });
-    }
+	    }
+
+
 }
