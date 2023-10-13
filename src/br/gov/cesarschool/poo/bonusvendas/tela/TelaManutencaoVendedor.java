@@ -273,9 +273,14 @@ public class TelaManutencaoVendedor {
 					return;
 				}
 
-
+				
 				Endereco endereco = new Endereco(logradouro, Integer.parseInt(numero), complemento, cep, cidade, estado, pais);
-				Sexo sexoEnum = Sexo.valueOf(sexo);
+				Sexo sexoEnum = null;
+				if(sexo.equals("Feminino")) {
+					sexoEnum = Sexo.FEMININO;
+				} else if(sexo.equals("Masculino")) {
+					sexoEnum = Sexo.MASCULINO;
+				}
 				Vendedor vendedor = new Vendedor(cpf, nomeCompleto, sexoEnum, LocalDate.of(ano, mes, dia), Double.parseDouble(renda), endereco);
 				vendedorMediator.incluir(vendedor);
 				JOptionPane.showMessageDialog(null, "Vendedor cadastrado com sucesso!");
