@@ -100,8 +100,7 @@ public class VendedorMediator {
 
     public ResultadoInclusaoVendedor incluir(Vendedor vendedor) {
         String retorno = validar(vendedor);
-        if(retorno == null) { //null é retorno se os dados estão validos
-            //verificar se vendor ja esta cadastrado
+        if(retorno == null) { 
             Vendedor vendedorExistente = repositoriovendedor.buscar(vendedor.getCpf());
             if(vendedorExistente != null){
                 ResultadoInclusaoVendedor resultado = new ResultadoInclusaoVendedor(0, "Vendedor ja existente");

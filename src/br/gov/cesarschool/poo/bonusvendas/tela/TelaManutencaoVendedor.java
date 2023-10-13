@@ -1,5 +1,8 @@
 package br.gov.cesarschool.poo.bonusvendas.tela;
 
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -13,7 +16,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import br.gov.cesarschool.poo.bonusvendas.dao.VendedorDAO;
+import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
+import br.gov.cesarschool.poo.bonusvendas.entidade.geral.Endereco;
+import br.gov.cesarschool.poo.bonusvendas.entidade.geral.Sexo;
 import br.gov.cesarschool.poo.bonusvendas.negocio.VendedorMediator;
+import br.gov.cesarschool.poo.bonusvendas.negocio.geral.StringUtil;
+import br.gov.cesarschool.poo.bonusvendas.negocio.geral.ValidadorCPF;
 
 
 public class TelaManutencaoVendedor {
@@ -21,6 +31,7 @@ public class TelaManutencaoVendedor {
 	protected Shell shell;
 	
 	private VendedorMediator vendedorMediator = VendedorMediator.getInstancia();
+	private VendedorDAO vendedorDAO = new VendedorDAO();
 	
 	private Text textCPF;
 	private Text textNomeCompleto;
@@ -179,6 +190,95 @@ public class TelaManutencaoVendedor {
 		enviarButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				String cpf = textCPF.getText();
+				cpf = cpf.replace(".", "");
+				cpf = cpf.replace("-", "");
+
+				if(ValidadorCPF.ehCpfValido(cpf) == false) {
+					JOptionPane.showMessageDialog(null, "CPF inválido!");
+					return;
+				}
+				if(vendedorDAO.buscar(cpf) != null) {
+					JOptionPane.showMessageDialog(null, "CPF já cadastrado!");
+					return;
+				}
+				String nomeCompleto = textNomeCompleto.getText();
+				if(StringUtil.ehNuloOuBranco(nomeCompleto)) {
+					JOptionPane.showMessageDialog(null, "Nome Completo inválido!");
+					return;
+				}
+				String sexo = "";
+				if (btnRadioButtonFeminino.getSelection()) {
+					sexo = "Feminino";
+				} else if (btnRadioButtonMasculino.getSelection()) {
+					sexo = "Masculino";
+				}else{
+					JOptionPane.showMessageDialog(null, "Sexo inválido!");
+					return;
+				}
+				String dataDeNascimentostr = textDataDeNascimento.getText();
+				String[] parts = dataDeNascimentostr.split("/");
+				if(parts.length != 3) {
+					JOptionPane.showMessageDialog(null, "Data de Nascimento inválida!");
+					return;
+				}
+				int dia = Integer.parseInt(parts[0]);
+				int mes = Integer.parseInt(parts[1]);
+				int ano = Integer.parseInt(parts[2]);
+
+				if(mes > 12 || mes < 1 || dia > 31 || dia < 1 || ano > 2005 || ano < 1900) {
+					JOptionPane.showMessageDialog(null, "Data de Nascimento inválida!");
+					return;
+				}
+
+
+				String renda = textRenda.getText();
+				if(StringUtil.ehNuloOuBranco(renda)) {
+					JOptionPane.showMessageDialog(null, "Renda inválida!");
+					return;
+				}
+				String logradouro = textLogradouro.getText();
+				if(StringUtil.ehNuloOuBranco(logradouro)) {
+					JOptionPane.showMessageDialog(null, "Logradouro inválido!");
+					return;
+				}
+				String numero = textNumero.getText();
+				if(StringUtil.ehNuloOuBranco(numero)) {
+					JOptionPane.showMessageDialog(null, "Número inválido!");
+					return;
+				}
+				String complemento = textComplemento.getText();
+				if(StringUtil.ehNuloOuBranco(complemento)) {
+					JOptionPane.showMessageDialog(null, "Complemento inválido!");
+					return;
+				}
+				String cep = textCEP.getText();
+				if(StringUtil.ehNuloOuBranco(cep)) {
+					JOptionPane.showMessageDialog(null, "CEP inválido!");
+					return;
+				}
+				String cidade = textCidade.getText();
+				if(StringUtil.ehNuloOuBranco(cidade)) {
+					JOptionPane.showMessageDialog(null, "Cidade inválida!");
+					return;
+				}
+				String estado = comboEstado.getText();
+				if(StringUtil.ehNuloOuBranco(estado)) {
+					JOptionPane.showMessageDialog(null, "Estado inválido!");
+					return;
+				}
+				String pais = txtBrasil.getText();
+				if(StringUtil.ehNuloOuBranco(pais)) {
+					JOptionPane.showMessageDialog(null, "Pais inválido!");
+					return;
+				}
+
+
+				Endereco endereco = new Endereco(logradouro, Integer.parseInt(numero), complemento, cep, cidade, estado, pais);
+				Sexo sexoEnum = Sexo.valueOf(sexo);
+				Vendedor vendedor = new Vendedor(cpf, nomeCompleto, sexoEnum, LocalDate.of(ano, mes, dia), Double.parseDouble(renda), endereco);
+				vendedorMediator.incluir(vendedor);
+				JOptionPane.showMessageDialog(null, "Vendedor cadastrado com sucesso!");
 			}
 		});
 		enviarButton.setBounds(306, 234, 94, 27);
@@ -232,11 +332,6 @@ public class TelaManutencaoVendedor {
 	                length = 11;
 	            }
 	            
-	            if (length < 11) {
-	            	// JOptionPane.showMessageDialog(null, "CPF inválido!");
-		        	System.out.println("CPF Inválido!");
-	            }
-
 	            
 	            if (length == 11) {
 	                formattedText.setLength(0); 
@@ -375,10 +470,11 @@ public class TelaManutencaoVendedor {
 	                    formattedText.append(currentText.charAt(i));
 	                }
 
+	
 	                text.setText(formattedText.toString());
 	                text.setSelection(formattedText.length());
 	                
-	                isValidData(formattedText.toString());
+	                //isValidData(formattedText.toString());
 
 	                ignoreModifyEventData = false;
 	            }
@@ -386,23 +482,20 @@ public class TelaManutencaoVendedor {
 	    }
 
 	    
-	    private void isValidData(String data) {
-	        String[] parts = data.split("/");
-	        if (parts.length != 3) {
-	           // JOptionPane.showMessageDialog(null, "Data de Nascimento inválida!");
-	        	System.out.println("Data de Nascimento inválida!");
-	            return;
-	        }
-
-	        int day = Integer.parseInt(parts[0]);
-	        int month = Integer.parseInt(parts[1]);
-	        int year = Integer.parseInt(parts[2]);
-
-	        if (year > 2005 || month < 1 || month > 12 || day < 1 || day > 31) {
-	          //  JOptionPane.showMessageDialog(null, "Data de Nascimento inválida!");
-	        	System.out.println("Data de Nascimento inválida!");
-	        }
-	    }
+	    //private void isValidData(String data) {
+	    //    String[] parts = data.split("/");
+	    //    if (parts.length != 3) {
+	    //        return;
+	    //    }
+//
+	    //    int day = Integer.parseInt(parts[0]);
+	    //    int month = Integer.parseInt(parts[1]);
+	    //    int year = Integer.parseInt(parts[2]);
+//
+	    //    if (year > 2005 || month < 1 || month > 12 || day < 1 || day > 31) {
+	    //        return;
+	    //    }
+	    //}
 
 	    
 	    private void addNumeroFormatter(final Text text) {
