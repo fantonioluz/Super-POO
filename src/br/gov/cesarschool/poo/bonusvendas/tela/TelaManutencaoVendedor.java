@@ -387,10 +387,6 @@ public class TelaManutencaoVendedor {
 	                currentText = currentText.substring(0, 8);
 	                length = 8;
 	            }
-	            if (length < 8) {
-	            	// JOptionPane.showMessageDialog(null, "CEP inválido!");
-		        	System.out.println("CEP Inválido!");
-	            }
 
 	            for (int i = 0; i < length; i++) {
 	                if (i == 2) {
@@ -486,7 +482,7 @@ public class TelaManutencaoVendedor {
 	                text.setText(formattedText.toString());
 	                text.setSelection(formattedText.length());
 	                
-	                //isValidData(formattedText.toString());
+	               
 
 	                ignoreModifyEventData = false;
 	            }
@@ -494,21 +490,7 @@ public class TelaManutencaoVendedor {
 	    }
 
 	    
-	    //private void isValidData(String data) {
-	    //    String[] parts = data.split("/");
-	    //    if (parts.length != 3) {
-	    //        return;
-	    //    }
-//
-	    //    int day = Integer.parseInt(parts[0]);
-	    //    int month = Integer.parseInt(parts[1]);
-	    //    int year = Integer.parseInt(parts[2]);
-//
-	    //    if (year > 2005 || month < 1 || month > 12 || day < 1 || day > 31) {
-	    //        return;
-	    //    }
-	    //}
-
+	    
 	    
 	    private void addNumeroFormatter(final Text text) {
 	        text.addVerifyListener(new VerifyListener() {
