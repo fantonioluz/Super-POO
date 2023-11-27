@@ -1,6 +1,8 @@
 package br.gov.cesarschool.poo.bonusvendas.negocio;
 
-import br.gov.cesarschool.poo.bonusvendas.util.Ordenadora.Comparador;
+import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
+import br.gov.cesarschool.poo.bonusvendas.util.Comparador;
+import br.gov.cesarschool.poo.bonusvendas.util.Ordenadora;
 
 public class ComparadorVendedorNome implements Comparador {
 
@@ -26,7 +28,7 @@ public class ComparadorVendedorNome implements Comparador {
             Vendedor vendedor2 = (Vendedor) o2;
 
 
-            int resultadoComparacao = vendedor1.getNome().compareTo(vendedor2.getNome());
+            int resultadoComparacao = vendedor1.getNomeCompleto().compareTo(vendedor2.getNomeCompleto());
 
             if (resultadoComparacao > 0) {
                 return 1; 
