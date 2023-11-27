@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import br.gov.cesarschool.poo.bonusvendas.negocio.ComparadorVendedorNome;
 import br.gov.cesarschool.poo.bonusvendas.negocio.ComparadorVendedorRenda;
 import br.gov.cesarschool.poo.bonusvendas.negocio.ResultadoInclusaoVendedor;
-import br.gov.cesarschool.poo.bonusvendas.dao.VendedorDAO;
+import br.gov.cesarschool.poo.bonusvendas.daov2.VendedorDAO;
 import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
 import br.gov.cesarschool.poo.bonusvendas.entidade.geral.Endereco;
 import br.gov.cesarschool.poo.bonusvendas.excecoes.ErroValidacao;
+import br.gov.cesarschool.poo.bonusvendas.excecoes.ExcecaoObjetoJaExistente;
+import br.gov.cesarschool.poo.bonusvendas.excecoes.ExcecaoObjetoNaoExistente;
 import br.gov.cesarschool.poo.bonusvendas.excecoes.ExcecaoValidacao;
 import br.gov.cesarschool.poo.bonusvendas.negocio.geral.StringUtil;
 import br.gov.cesarschool.poo.bonusvendas.negocio.geral.ValidadorCPF;
@@ -49,31 +51,17 @@ public class VendedorMediator {
 	}
 	
 	
-	public ResultadoInclusaoVendedor incluir(Vendedor vendedor) {
-		long numeroCaixaBonus = 0;
-		String msg = validar(vendedor);
-		if (msg == null) {
-			boolean ret = repositorioVendedor.incluir(vendedor);
-			if (!ret) {
-				msg = "Vendedor ja existente";
-			} else {
-				numeroCaixaBonus = caixaDeBonusMediator.gerarCaixaDeBonus(vendedor);
-				if (numeroCaixaBonus == 0) {
-					msg = "Caixa de bonus nao foi gerada";					
-				}
-			}
-		}
-		return new ResultadoInclusaoVendedor(numeroCaixaBonus, msg);
+	public long incluir(Vendedor vendedor) throws ExcecaoObjetoJaExistente, ExcecaoValidacao {
+		validar(vendedor);
+		repositorioVendedor.incluir(vendedor);
+		long numeroCaixaBonus = caixaDeBonusMediator.gerarCaixaDeBonus(vendedor);
+		
+		return numeroCaixaBonus;
+
 	}
-	public String alterar(Vendedor vendedor) {
-		String msg = validar(vendedor);
-		if (msg == null) {
-			boolean ret = repositorioVendedor.alterar(vendedor);
-			if (!ret) {
-				msg = "Vendedor inexistente";
-			}
-		}
-		return msg;
+	public void alterar(Vendedor vendedor) throws ExcecaoObjetoNaoExistente, ExcecaoValidacao{
+		validar(vendedor);
+		repositorioVendedor.alterar(vendedor);
 	}
 	
 	
@@ -141,5 +129,14 @@ public class VendedorMediator {
 	private boolean dataNascimentoInvalida(LocalDate dataNasc) {
 		long yearsDifference = ChronoUnit.YEARS.between(dataNasc, LocalDate.now());
 		return yearsDifference < 17;
+	}
+	
+	public Vendedor buscar(String cpf) throws ExcecaoObjetoNaoExistente{
+		try {
+			repositorioVendedor.buscar(cpf);
+		}catch (ExcecaoObjetoNaoExistente e){
+			throw new ExcecaoObjetoNaoExistente("Vendedor nao existente");
+		}
+		return repositorioVendedor.buscar(cpf);
 	}
 }
