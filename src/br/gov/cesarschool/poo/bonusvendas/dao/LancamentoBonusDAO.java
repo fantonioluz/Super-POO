@@ -3,6 +3,7 @@ package br.gov.cesarschool.poo.bonusvendas.dao;
 import java.io.Serializable;
 import br.gov.cesarschool.poo.bonusvendas.entidade.LancamentoBonus;
 
+
 public class LancamentoBonusDAO {
     private DAOGenerico dao;
 

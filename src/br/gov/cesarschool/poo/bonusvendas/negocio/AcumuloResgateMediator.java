@@ -3,14 +3,20 @@ package br.gov.cesarschool.poo.bonusvendas.negocio;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import br.gov.cesarschool.poo.bonusvendas.dao.CaixaDeBonusDAO;
 import br.gov.cesarschool.poo.bonusvendas.dao.LancamentoBonusDAO;
 import br.gov.cesarschool.poo.bonusvendas.entidade.CaixaDeBonus;
+import br.gov.cesarschool.poo.bonusvendas.entidade.LancamentoBonus;
 import br.gov.cesarschool.poo.bonusvendas.entidade.LancamentoBonusCredito;
 import br.gov.cesarschool.poo.bonusvendas.entidade.LancamentoBonusDebito;
 import br.gov.cesarschool.poo.bonusvendas.entidade.TipoResgate;
 import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
+import br.gov.cesarschool.poo.bonusvendas.util.Ordenadora;
 
 public class AcumuloResgateMediator {
 	private static final String CAIXA_DE_BONUS_INEXISTENTE = "Caixa de bonus inexistente";
@@ -28,6 +34,35 @@ public class AcumuloResgateMediator {
 		repositorioCaixaDeBonus = new CaixaDeBonusDAO();
 		repositorioLancamento = new LancamentoBonusDAO();
 	}
+	
+	
+	public CaixaDeBonus[] listaCaixaDeBonusPorSaldoMaior(double saldoInicial) {
+		CaixaDeBonus[] todasAsCaixas = repositorioCaixaDeBonus.buscarTodos();
+		CaixaDeBonus[] caixasFiltradas = Arrays.stream(todasAsCaixas).filter(caixa -> caixa.getSaldo() >= saldoInicial).toArray(CaixaDeBonus[]::new);
+		Ordenadora.ordenar(caixasFiltradas, ComparadorCaixaDeBonusSaldoDec.getInstance());
+		return caixasFiltradas;
+	}
+	
+    public LancamentoBonus[] listaLancamentosPorFaixaData(LocalDate d1, LocalDate d2) {
+        LancamentoBonus[] todosOsLancamentos = repositorioLancamento.buscarTodos();
+
+        List<LancamentoBonus> lancamentosFiltrados = new ArrayList<>();
+
+        for (LancamentoBonus lancamento : todosOsLancamentos) {
+            LocalDate dataHoraLancamento = lancamento.getDataHoraLancamento().toLocalDate();
+            if (!dataHoraLancamento.isBefore(d1) && !dataHoraLancamento.isAfter(d2)) {
+                lancamentosFiltrados.add(lancamento);
+            }
+        }
+
+    
+        Collections.sort(lancamentosFiltrados, ComparadorLancamentoBonusDHDec.getInstance());
+
+        return lancamentosFiltrados.toArray(new LancamentoBonus[0]);
+    }
+	
+	
+	
 	public long gerarCaixaDeBonus(Vendedor vendedor) {
 		LocalDate dataAtual = LocalDate.now();
 		DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
