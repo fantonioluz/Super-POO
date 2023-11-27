@@ -12,7 +12,7 @@ public class ComparadorVendedorRenda implements Comparador {
 
     }
 
-    public static ComparadorVendedorRenda getInstancia() {
+    public static ComparadorVendedorRenda getInstance() {
         if (instancia == null) {
             instancia = new ComparadorVendedorRenda();
         }
