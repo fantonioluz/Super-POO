@@ -2,7 +2,6 @@ package br.gov.cesarschool.poo.bonusvendas.dao;
 
 import java.io.Serializable;
 import br.gov.cesarschool.poo.bonusvendas.entidade.CaixaDeBonus;
-import br.edu.cesarschool.next.oo.persistenciaobjetos.DAOGenerico;
 
 public class CaixaDeBonusDAO {
     private static final String ARQUIVO = "";
@@ -21,11 +20,11 @@ public class CaixaDeBonusDAO {
     }
 
     public CaixaDeBonus buscar(long numero) {
-        return (CaixaDeBonus)dao.buscar(numero);
+        return (CaixaDeBonus)dao.buscar(ARQUIVO + numero);
     }
 
     public CaixaDeBonus[] buscarTodos() {
-        Serializable[] rets = dao.buscarTodos(CaixaDeBonus.class);
+        Serializable[] rets = dao.buscarTodos();
         CaixaDeBonus[] caixaDeBonus = new CaixaDeBonus[rets.length];
         for (int i = 0; i < rets.length; i++) {
             caixaDeBonus[i] = (CaixaDeBonus) rets[i];

@@ -2,10 +2,8 @@ package br.gov.cesarschool.poo.bonusvendas.dao;
 
 import java.io.Serializable;
 import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
-import br.edu.cesarschool.next.oo.persistenciaobjetos.DAOGenerico;
 
 public class VendedorDAO {
-    private static final String ARQUIVO = "";
     private DAOGenerico dao;
 
     public VendedorDAO(){
@@ -26,7 +24,7 @@ public class VendedorDAO {
     }
 
     public Vendedor[] buscarTodos() {
-        Serializable[] rets = dao.buscarTodos(Vendedor.class);
+        Serializable[] rets = dao.buscarTodos();
         Vendedor[] vendedor = new Vendedor[rets.length];
         for(int i = 0; i<rets.length; i++) {
             vendedor[i] = (Vendedor)rets[i];
