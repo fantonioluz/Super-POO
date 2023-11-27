@@ -1,6 +1,8 @@
 package br.gov.cesarschool.poo.bonusvendas.negocio;
 
-import br.gov.cesarschool.poo.bonusvendas.util.Ordenadora.Comparador;
+import br.gov.cesarschool.poo.bonusvendas.entidade.Vendedor;
+import br.gov.cesarschool.poo.bonusvendas.util.Comparador;
+import br.gov.cesarschool.poo.bonusvendas.util.Ordenadora;
 
 public class ComparadorVendedorRenda implements Comparador {
 
