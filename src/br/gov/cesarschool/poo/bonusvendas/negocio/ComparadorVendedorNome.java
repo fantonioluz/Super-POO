@@ -7,6 +7,7 @@ public class ComparadorVendedorNome implements Comparador {
     private static ComparadorVendedorNome instancia;
 
     private ComparadorVendedorNome() {
+
     }
 
     public static ComparadorVendedorNome getInstancia() {
@@ -24,14 +25,18 @@ public class ComparadorVendedorNome implements Comparador {
             Vendedor vendedor1 = (Vendedor) o1;
             Vendedor vendedor2 = (Vendedor) o2;
 
-            return vendedor1.getNome().compareTo(vendedor2.getNome());
+
+            int resultadoComparacao = vendedor1.getNome().compareTo(vendedor2.getNome());
+
+            if (resultadoComparacao > 0) {
+                return 1; 
+            } else if (resultadoComparacao < 0) {
+                return -1; 
+            } else {
+                return 0; 
+            }
         }
 
-  
         return 0;
     }
 }
-
-
-
-
