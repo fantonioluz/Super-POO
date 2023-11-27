@@ -1,9 +1,9 @@
-package br.gov.cesarschool.poo.bonusvendas.util
+package br.gov.cesarschool.poo.bonusvendas.util;
 
 
 public class Ordenadora{
 
-  private Ordendora(){
+  private Ordenadora(){
 
    }
    public static void ordenar(Object[] lista, Comparador comp){
