@@ -5,9 +5,10 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 import br.gov.cesarschool.poo.bonusvendas.entidade.geral.Endereco;
+import br.gov.cesarschool.poo.bonusvendas.entidade.geral.Registro;
 import br.gov.cesarschool.poo.bonusvendas.entidade.geral.Sexo;
 
-public class Vendedor implements Serializable {
+public class Vendedor extends Registro {
 	private String cpf;
 	private String nomeCompleto;
 	private Sexo sexo; 
@@ -59,5 +60,9 @@ public class Vendedor implements Serializable {
 	}
 	public int calcularIdade() {
 		return (int)ChronoUnit.YEARS.between(dataNascimento, LocalDate.now());
+	}
+	@Override
+	public String getIdUnico() {
+		return this.getCpf();
 	}
 }
