@@ -1,51 +1,66 @@
 package br.gov.cesarschool.poo.bonusvendas.dao;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 import br.gov.cesarschool.poo.bonusvendas.entidade.LancamentoBonus;
+import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 
 public class LancamentoBonusDAO {
-	private CadastroObjetos cadastro = new CadastroObjetos(LancamentoBonus.class); 
-	public boolean incluir(LancamentoBonus lancamento) {
-		String idUnico = obterIdUnico(lancamento);
-		LancamentoBonus lancamentoBusca = buscar(idUnico);  
-		if (lancamentoBusca != null) { 
-			return false;
-		} else {
-			cadastro.incluir(lancamento, idUnico);
-			return true;
-		}		 
-	}
-	public boolean alterar(LancamentoBonus lancamento) {
-		String idUnico = obterIdUnico(lancamento);
-		LancamentoBonus lancamentoBusca = buscar(idUnico);
-		if (lancamentoBusca == null) {
-			return false;
-		} else {
-			cadastro.alterar(lancamento, idUnico);
-			return true;
-		}		
-	}
-	public LancamentoBonus buscar(String codigo) {
-		// Esta operação entre () vai ter significado mais à frente! 
-		return (LancamentoBonus)cadastro.buscar(codigo);
-	}
-	public LancamentoBonus[] buscarTodos() {
-		Serializable[] rets = cadastro.buscarTodos(LancamentoBonus.class);
-		LancamentoBonus[] lancamentos = new LancamentoBonus[rets.length];
-		for(int i=0; i<rets.length; i++) {
-			// Esta operação entre () vai ter significado mais à frente! 
-			lancamentos[i] = (LancamentoBonus)rets[i];
-		}
-		return lancamentos;
-	} 
-	private String obterIdUnico(LancamentoBonus lancamento) {
-		DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-		return lancamento.getNumeroCaixaDeBonus() + 
-				lancamento.getDataHoraLancamento().format(customFormatter);
-	}	
+    private static final String ARQUIVO = "";
+    private CadastroObjetos cadastro = new CadastroObjetos(LancamentoBonus.class);
 
+    public String idLancamento(LancamentoBonus lancamentoBonus) {
+        String dataString = lancamentoBonus.getDataHoraLancamento().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String idLancamentoString = String.valueOf(lancamentoBonus.getNumeroCaixaDeBonus()) + dataString;
+        return idLancamentoString;
+    }
+
+    public boolean incluir(LancamentoBonus lancamentoBonus) {
+        String buscaLancamento = idLancamento(lancamentoBonus);
+        LancamentoBonus buscaLancamentoObj = buscar(buscaLancamento);
+
+        if (buscaLancamentoObj != null) {
+            return false;
+        } else {
+            cadastro.incluir(lancamentoBonus, ARQUIVO + buscaLancamento);
+            return true;
+        }
+    }
+
+    public boolean alterar(LancamentoBonus lancamentoBonus) {
+        String buscaLancamento = idLancamento(lancamentoBonus);
+        LancamentoBonus buscaLancamentoObj = buscar(buscaLancamento);
+
+        if (buscaLancamentoObj == null) {
+            return false;
+        } else {
+            cadastro.alterar(lancamentoBonus, ARQUIVO + buscaLancamento);
+            return true;
+        }
+    }
+
+    public boolean excluir(LancamentoBonus lancamentoBonus) {
+        String buscaLancamento = idLancamento(lancamentoBonus);
+        LancamentoBonus buscaLancamentoObj = buscar(buscaLancamento);
+
+        if (buscaLancamentoObj == null) {
+            return false;
+        } else {
+            cadastro.excluir(ARQUIVO + buscaLancamento);
+            return true;
+        }
+    }
+
+    public LancamentoBonus buscar(String idLancamento) {
+        return (LancamentoBonus) cadastro.buscar(ARQUIVO + idLancamento);
+    }
+
+    public LancamentoBonus[] buscarTodos() {
+        Serializable[] rets = cadastro.buscarTodos(LancamentoBonus.class);
+        LancamentoBonus[] lancamentoBonus = new LancamentoBonus[rets.length];
+        for (int i = 0; i < rets.length; i++) {
+            lancamentoBonus[i] = (LancamentoBonus) rets[i];
+        }
+        return lancamentoBonus;
+    }
 }
