@@ -1,4 +1,4 @@
-package br.gov.cesarschool.poo.bonusvendas.excecoes
+package br.gov.cesarschool.poo.bonusvendas.excecoes;
 
 
 
